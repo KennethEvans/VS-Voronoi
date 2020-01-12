@@ -61,6 +61,7 @@
             this.splitPanel.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitPanel.IsSplitterFixed = true;
             this.splitPanel.Location = new System.Drawing.Point(0, 0);
+            this.splitPanel.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.splitPanel.Name = "splitPanel";
             // 
             // splitPanel.Panel1
@@ -72,9 +73,9 @@
             // splitPanel.Panel2
             // 
             this.splitPanel.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
-            this.splitPanel.Size = new System.Drawing.Size(842, 600);
+            this.splitPanel.Size = new System.Drawing.Size(2245, 1431);
             this.splitPanel.SplitterDistance = 250;
-            this.splitPanel.SplitterWidth = 1;
+            this.splitPanel.SplitterWidth = 3;
             this.splitPanel.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -104,6 +105,7 @@
             this.tableLayoutPanel1.Controls.Add(this.chkBeachline, 0, 10);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 14;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -115,30 +117,32 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 600);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(250, 1431);
             this.tableLayoutPanel1.TabIndex = 19;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Location = new System.Drawing.Point(8, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(119, 26);
+            this.label2.Size = new System.Drawing.Size(109, 52);
             this.label2.TabIndex = 13;
             this.label2.Text = "Seed:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnAnimate
             // 
-            this.btnAnimate.Location = new System.Drawing.Point(128, 333);
+            this.btnAnimate.Location = new System.Drawing.Point(133, 905);
+            this.btnAnimate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnAnimate.Name = "btnAnimate";
-            this.btnAnimate.Size = new System.Drawing.Size(119, 23);
+            this.btnAnimate.Size = new System.Drawing.Size(109, 55);
             this.btnAnimate.TabIndex = 14;
             this.btnAnimate.Text = "Animate";
             this.btnAnimate.UseVisualStyleBackColor = true;
@@ -147,9 +151,10 @@
             // btnStepVoronoi
             // 
             this.btnStepVoronoi.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnStepVoronoi.Location = new System.Drawing.Point(3, 304);
+            this.btnStepVoronoi.Location = new System.Drawing.Point(8, 836);
+            this.btnStepVoronoi.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnStepVoronoi.Name = "btnStepVoronoi";
-            this.btnStepVoronoi.Size = new System.Drawing.Size(119, 23);
+            this.btnStepVoronoi.Size = new System.Drawing.Size(109, 55);
             this.btnStepVoronoi.TabIndex = 7;
             this.btnStepVoronoi.Text = "Step Graph";
             this.btnStepVoronoi.UseVisualStyleBackColor = true;
@@ -158,9 +163,10 @@
             // btnStepTo
             // 
             this.btnStepTo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnStepTo.Location = new System.Drawing.Point(128, 304);
+            this.btnStepTo.Location = new System.Drawing.Point(133, 836);
+            this.btnStepTo.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnStepTo.Name = "btnStepTo";
-            this.btnStepTo.Size = new System.Drawing.Size(119, 23);
+            this.btnStepTo.Size = new System.Drawing.Size(109, 55);
             this.btnStepTo.TabIndex = 11;
             this.btnStepTo.Text = "Step to:";
             this.btnStepTo.UseVisualStyleBackColor = true;
@@ -168,35 +174,38 @@
             // 
             // nudStepTo
             // 
-            this.nudStepTo.Location = new System.Drawing.Point(128, 278);
+            this.nudStepTo.Location = new System.Drawing.Point(133, 784);
+            this.nudStepTo.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.nudStepTo.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.nudStepTo.Name = "nudStepTo";
-            this.nudStepTo.Size = new System.Drawing.Size(119, 20);
+            this.nudStepTo.Size = new System.Drawing.Size(109, 38);
             this.nudStepTo.TabIndex = 10;
             // 
             // nudRelax
             // 
             this.nudRelax.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nudRelax.Location = new System.Drawing.Point(128, 55);
+            this.nudRelax.Location = new System.Drawing.Point(133, 187);
+            this.nudRelax.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.nudRelax.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
             this.nudRelax.Name = "nudRelax";
-            this.nudRelax.Size = new System.Drawing.Size(119, 20);
+            this.nudRelax.Size = new System.Drawing.Size(109, 38);
             this.nudRelax.TabIndex = 18;
             // 
             // btnInitialize
             // 
             this.btnInitialize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnInitialize.Location = new System.Drawing.Point(128, 249);
+            this.btnInitialize.Location = new System.Drawing.Point(133, 684);
+            this.btnInitialize.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnInitialize.Name = "btnInitialize";
-            this.btnInitialize.Size = new System.Drawing.Size(119, 23);
+            this.btnInitialize.Size = new System.Drawing.Size(109, 86);
             this.btnInitialize.TabIndex = 8;
             this.btnInitialize.Text = "Initialize";
             this.btnInitialize.UseVisualStyleBackColor = true;
@@ -205,23 +214,25 @@
             // nudSeed
             // 
             this.nudSeed.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nudSeed.Location = new System.Drawing.Point(128, 3);
+            this.nudSeed.Location = new System.Drawing.Point(133, 7);
+            this.nudSeed.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.nudSeed.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
             this.nudSeed.Name = "nudSeed";
-            this.nudSeed.Size = new System.Drawing.Size(119, 20);
+            this.nudSeed.Size = new System.Drawing.Size(109, 38);
             this.nudSeed.TabIndex = 6;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 26);
+            this.label1.Location = new System.Drawing.Point(8, 52);
+            this.label1.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 26);
+            this.label1.Size = new System.Drawing.Size(109, 128);
             this.label1.TabIndex = 2;
             this.label1.Text = "Number of Regions:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -229,7 +240,8 @@
             // nudNumRegions
             // 
             this.nudNumRegions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nudNumRegions.Location = new System.Drawing.Point(128, 29);
+            this.nudNumRegions.Location = new System.Drawing.Point(133, 59);
+            this.nudNumRegions.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.nudNumRegions.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -241,7 +253,7 @@
             0,
             0});
             this.nudNumRegions.Name = "nudNumRegions";
-            this.nudNumRegions.Size = new System.Drawing.Size(119, 20);
+            this.nudNumRegions.Size = new System.Drawing.Size(109, 38);
             this.nudNumRegions.TabIndex = 1;
             this.nudNumRegions.Value = new decimal(new int[] {
             50,
@@ -253,9 +265,10 @@
             // 
             this.chDebug.AutoSize = true;
             this.chDebug.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chDebug.Location = new System.Drawing.Point(128, 177);
+            this.chDebug.Location = new System.Drawing.Point(133, 517);
+            this.chDebug.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.chDebug.Name = "chDebug";
-            this.chDebug.Size = new System.Drawing.Size(119, 17);
+            this.chDebug.Size = new System.Drawing.Size(109, 36);
             this.chDebug.TabIndex = 12;
             this.chDebug.Text = "Debug?";
             this.chDebug.UseVisualStyleBackColor = true;
@@ -263,9 +276,10 @@
             // btnRegen
             // 
             this.btnRegen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnRegen.Location = new System.Drawing.Point(128, 200);
+            this.btnRegen.Location = new System.Drawing.Point(133, 567);
+            this.btnRegen.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.btnRegen.Name = "btnRegen";
-            this.btnRegen.Size = new System.Drawing.Size(119, 23);
+            this.btnRegen.Size = new System.Drawing.Size(109, 55);
             this.btnRegen.TabIndex = 0;
             this.btnRegen.Text = "Regenerate Graph";
             this.btnRegen.UseVisualStyleBackColor = true;
@@ -275,9 +289,10 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(3, 52);
+            this.label4.Location = new System.Drawing.Point(8, 180);
+            this.label4.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(119, 26);
+            this.label4.Size = new System.Drawing.Size(109, 52);
             this.label4.TabIndex = 17;
             this.label4.Text = "Relax:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -288,9 +303,10 @@
             this.chkShowSites.Checked = true;
             this.chkShowSites.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkShowSites.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkShowSites.Location = new System.Drawing.Point(128, 81);
+            this.chkShowSites.Location = new System.Drawing.Point(133, 239);
+            this.chkShowSites.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.chkShowSites.Name = "chkShowSites";
-            this.chkShowSites.Size = new System.Drawing.Size(119, 17);
+            this.chkShowSites.Size = new System.Drawing.Size(109, 36);
             this.chkShowSites.TabIndex = 3;
             this.chkShowSites.Text = "Show Sites?";
             this.chkShowSites.UseVisualStyleBackColor = true;
@@ -302,9 +318,10 @@
             this.chkShowVertices.Checked = true;
             this.chkShowVertices.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkShowVertices.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkShowVertices.Location = new System.Drawing.Point(128, 104);
+            this.chkShowVertices.Location = new System.Drawing.Point(133, 289);
+            this.chkShowVertices.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.chkShowVertices.Name = "chkShowVertices";
-            this.chkShowVertices.Size = new System.Drawing.Size(119, 17);
+            this.chkShowVertices.Size = new System.Drawing.Size(109, 36);
             this.chkShowVertices.TabIndex = 4;
             this.chkShowVertices.Text = "Show Vertices?";
             this.chkShowVertices.UseVisualStyleBackColor = true;
@@ -316,9 +333,10 @@
             this.chkShowEdges.Checked = true;
             this.chkShowEdges.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkShowEdges.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkShowEdges.Location = new System.Drawing.Point(128, 127);
+            this.chkShowEdges.Location = new System.Drawing.Point(133, 339);
+            this.chkShowEdges.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.chkShowEdges.Name = "chkShowEdges";
-            this.chkShowEdges.Size = new System.Drawing.Size(119, 17);
+            this.chkShowEdges.Size = new System.Drawing.Size(109, 36);
             this.chkShowEdges.TabIndex = 5;
             this.chkShowEdges.Text = "Show Edges?";
             this.chkShowEdges.UseVisualStyleBackColor = true;
@@ -333,9 +351,10 @@
             "None",
             "Circles",
             "Triangles"});
-            this.cbCircles.Location = new System.Drawing.Point(128, 150);
+            this.cbCircles.Location = new System.Drawing.Point(133, 389);
+            this.cbCircles.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cbCircles.Name = "cbCircles";
-            this.cbCircles.Size = new System.Drawing.Size(119, 21);
+            this.cbCircles.Size = new System.Drawing.Size(109, 39);
             this.cbCircles.TabIndex = 15;
             this.cbCircles.SelectedIndexChanged += new System.EventHandler(this.cbCircles_SelectedIndexChanged);
             // 
@@ -343,9 +362,10 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(3, 147);
+            this.label5.Location = new System.Drawing.Point(8, 382);
+            this.label5.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(119, 27);
+            this.label5.Size = new System.Drawing.Size(109, 128);
             this.label5.TabIndex = 19;
             this.label5.Text = "Show Circle Events:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -354,9 +374,10 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(3, 275);
+            this.label3.Location = new System.Drawing.Point(8, 777);
+            this.label3.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(119, 26);
+            this.label3.Size = new System.Drawing.Size(109, 52);
             this.label3.TabIndex = 16;
             this.label3.Text = "Step:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -367,22 +388,24 @@
             this.chkBeachline.Checked = true;
             this.chkBeachline.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkBeachline.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkBeachline.Location = new System.Drawing.Point(3, 249);
+            this.chkBeachline.Location = new System.Drawing.Point(8, 684);
+            this.chkBeachline.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.chkBeachline.Name = "chkBeachline";
-            this.chkBeachline.Size = new System.Drawing.Size(119, 23);
+            this.chkBeachline.Size = new System.Drawing.Size(109, 86);
             this.chkBeachline.TabIndex = 20;
             this.chkBeachline.Text = "Show Beachline?";
             this.chkBeachline.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(842, 600);
+            this.ClientSize = new System.Drawing.Size(2245, 1431);
             this.Controls.Add(this.splitPanel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "MainForm";
             this.Text = "Voronoi";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);

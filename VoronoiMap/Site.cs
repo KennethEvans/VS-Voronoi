@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Core;
 
 namespace VoronoiMap {
     /// <summary>
@@ -67,7 +66,7 @@ namespace VoronoiMap {
         public static float Distance(Site s1, Site s2) {
             var dx = s1.X - s2.X;
             var dy = s1.Y - s2.Y;
-            return MathF.Sqrt(dx * dx + dy * dy);
+            return (float)Math.Sqrt(dx * dx + dy * dy);
         }
         
         public List<Site> Region(RectangleF clippingBounds) {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Core;
 
 namespace VoronoiMap {
     public static class Geometry {
@@ -35,7 +34,7 @@ namespace VoronoiMap {
 
             var centerX = (bc * (p2.Y - p3.Y) - cd * (p1.Y - p2.Y)) * iDet;
             var centerY = (cd * (p1.X - p2.X) - bc * (p2.X - p3.X)) * iDet;
-            var radius = MathF.Sqrt(((p2.X - centerX) * (p2.X - centerX)) + ((p2.Y - centerY) * (p2.Y - centerY)));
+            var radius = (float)Math.Sqrt(((p2.X - centerX) * (p2.X - centerX)) + ((p2.Y - centerY) * (p2.Y - centerY)));
             Center = new PointF(centerX, centerY);
             Radius = radius;
         }

@@ -393,7 +393,7 @@ namespace VoronoiMap {
         }
 
         private void MainForm_Resize(object sender, EventArgs e) {
-            _bitmap.Dispose();
+            if(_bitmap != null) _bitmap.Dispose();
             _bitmap = new Bitmap(splitPanel.Panel2.ClientSize.Width, splitPanel.Panel2.ClientSize.Height);
             btnRegen_Click(null, null);
         }
