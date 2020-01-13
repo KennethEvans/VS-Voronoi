@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("VoronoiMap")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Voronoi Map")]
+[assembly: AssemblyDescription("If this program works, it was written by Kenneth Evans.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("VoronoiMap")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCompany("kenevans.net")]
+[assembly: AssemblyProduct("Voronoi Map")]
+[assembly: AssemblyCopyright("Copyright © Kenneth Evans 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

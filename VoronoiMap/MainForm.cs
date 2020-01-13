@@ -23,6 +23,8 @@ namespace VoronoiMap {
         private readonly SolidBrush _siteBrush;
         private readonly SolidBrush _newSiteBrush;
 
+        private readonly Font _textFont = new System.Drawing.Font("Arial", 10);
+
         private Bitmap _bitmap;
 
         public MainForm() {
@@ -35,7 +37,7 @@ namespace VoronoiMap {
             _beachPen = new Pen(Color.Orange);
             _vertBrush = new SolidBrush(Color.Firebrick);
             _newVertBrush = new SolidBrush(Color.Red);
-            _siteBrush = new SolidBrush(Color.Blue);
+            _siteBrush = new SolidBrush(Color.LightSkyBlue);
             _newSiteBrush = new SolidBrush(Color.LightSkyBlue);
         }
 
@@ -120,8 +122,9 @@ namespace VoronoiMap {
                 var gp3 = new GraphicsPath();
                 foreach (var point in _graph.Sites) {
                     var r = new RectangleF(point.X - 2, point.Y - 2, 4, 4);
-                    if (chkShowSites.Checked) {
+                    if (chkShowSites.Checked && chkShowNumbers.Checked) {
                         gp.AddEllipse(r);
+                        g.DrawString(point.NumString(), _textFont, _siteBrush, point.X, point.Y);
                     }
 
                     foreach (var edge in point.Edges) {
@@ -313,8 +316,8 @@ namespace VoronoiMap {
 
             var numSites = (int)nudNumRegions.Value;
             var sites = new List<PointF>();
-            Console.WriteLine(w);
-            Console.WriteLine(h);
+            Console.WriteLine("Width=" + w);
+            Console.WriteLine("Height=" + h);
             for (int i = 0; i < numSites; i++) {
                 var p = new Point(rand.Next(w), rand.Next(h));
                 sites.Add(p);
@@ -402,6 +405,17 @@ namespace VoronoiMap {
             splitPanel.Panel2.Invalidate();
         }
 
+        private void file_OpenInput_click(object sender, EventArgs e) {
 
+        }
+
+        private void file_Exit_click(object sender, EventArgs e) {
+            Close();
+        }
+
+        private void help_About_click(object sender, EventArgs e) {
+            AboutBox dlg = new AboutBox();
+            dlg.ShowDialog();
+        }
     }
 }

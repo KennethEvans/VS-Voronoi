@@ -31,6 +31,10 @@ namespace VoronoiMap {
 
         public Site(PointF p) : this(p.X, p.Y) { }
 
+        public string NumString() {
+            return String.Format("{0}", SiteNum);
+        }
+
         public void AddEdge(Edge e) {
             Edges.Add(e);
         }
