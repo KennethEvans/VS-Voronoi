@@ -59,6 +59,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AboutBox.Designer.cs" />
+    <Compile Include="BasicSite.cs" />
     <Compile Include="BoundsCheck.cs" />
     <Compile Include="CohenSutherland.cs" />
     <Compile Include="Edge.cs" />

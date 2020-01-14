@@ -374,6 +374,8 @@
             // chkShowNumbers
             // 
             this.chkShowNumbers.AutoSize = true;
+            this.chkShowNumbers.Checked = true;
+            this.chkShowNumbers.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkShowNumbers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chkShowNumbers.Location = new System.Drawing.Point(131, 389);
             this.chkShowNumbers.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);

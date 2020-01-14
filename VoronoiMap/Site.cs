@@ -15,6 +15,8 @@ namespace VoronoiMap {
 
         public float X { get; private set; }
         public float Y { get; private set; }
+        public Color Color { get; private set; }
+        public float Height { get; private set; }
         private int SiteNum { get; set; }
         public bool New { get; set; }
         public List<Edge> Edges { get; private set; }
@@ -25,6 +27,15 @@ namespace VoronoiMap {
         public Site(float x, float y) {
             X = x;
             Y = y;
+            SiteNum = _siteCount++;
+            Edges = new List<Edge>();
+        }
+
+        public Site(float x, float y, Color color, float height = 0) {
+            X = x;
+            Y = y;
+            Color = color;
+            Height = height;
             SiteNum = _siteCount++;
             Edges = new List<Edge>();
         }

@@ -21,17 +21,14 @@ namespace VoronoiMap {
         public int StepNumber { get; private set; }
 
 
-        public Voronoi(IEnumerable<PointF> points, int w = 800, int h = 600, bool debug=false) {
-            _sites = new SiteList(points);
+        public Voronoi(IEnumerable<BasicSite> basicSites, int w = 800, int h = 600, bool debug=false) {
+            _sites = new SiteList(basicSites);
             _sites.LogSites();
             _graph = new VoronoiGraph(w, h) {Debug = debug};
-            
             _edgeList = new EdgeList(_sites);
             _eventQueue = new EventQueue();
             _edgeFixup = false;
-
             StepNumber = 0;
-
         }
 
         public VoronoiGraph Initialize() {

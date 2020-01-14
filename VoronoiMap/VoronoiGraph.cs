@@ -25,8 +25,9 @@ namespace VoronoiMap {
         }
 
 
-        public static VoronoiGraph ComputeVoronoiGraph(IEnumerable<PointF> points, int w = 800, int h = 600, bool debug=false) {
-            var sites = new SiteList(points);
+        public static VoronoiGraph ComputeVoronoiGraph(IEnumerable<BasicSite> basicSites,
+          int w = 800, int h = 600, bool debug=false) {
+            var sites = new SiteList(basicSites);
             if (debug) {
                 sites.LogSites();
             }
