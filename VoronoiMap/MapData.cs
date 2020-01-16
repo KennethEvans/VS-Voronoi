@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -13,8 +16,13 @@ namespace VoronoiMap {
 
         public float Width { get { return (Right - Left); } }
         public float Height { get { return (Bottom - Top); } }
+        public RectangleF Bounds
+        {
+            get { return new RectangleF(Left, Top, Width, Height); }
+        }
 
-        public MapData(float left, float right, float top, float bottom, List<BasicSite> siteList) {
+        public MapData(float left, float right, float top, float bottom,
+            List<BasicSite> siteList) {
             Left = left;
             Right = right;
             Top = top;
@@ -64,6 +72,32 @@ namespace VoronoiMap {
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 saveMapDataAsJson(dlg.FileName, indented);
             }
+        }
+
+        /// <summary>
+        /// Return a Matrix that transforms a source RectangleF to a destination RectangleF.
+        /// Based on https://stackoverflow.com/questions/20445474/matrix-and-graphicspath
+        /// </summary>
+        /// <param name="srcRect">The starting RectanlgleF.</param>
+        /// <param name="destRect">The RectangleF into which it is to fit</param>
+        /// <returns></returns>
+        public static Matrix getMatrixToFitRectInRect(RectangleF srcRect,
+            RectangleF destRect) {
+            Matrix m = new Matrix();
+            PointF bounds_center = new PointF(destRect.Width / 2,
+                destRect.Height / 2);
+            //Set translation centerpoint
+            m.Translate(bounds_center.X, bounds_center.Y);
+            //Get smallest size to scale to fit boundsrect
+            float scale = Math.Min(destRect.Width / srcRect.Width,
+                destRect.Height / srcRect.Height);
+            m.Scale(scale, scale);
+            //Move fitrect to center of boundsrect
+            m.Translate(bounds_center.X - srcRect.X - srcRect.Width / 2f,
+                bounds_center.Y - srcRect.Y - srcRect.Height / 2f);
+            //Restore translation point
+            m.Translate(-bounds_center.X, -bounds_center.Y);
+            return m;
         }
     }
 }
