@@ -7,8 +7,6 @@ namespace VoronoiMap {
     /// <summary>
     /// Adapted from http://philogb.github.io/blog/assets/voronoijs/voronoi.html
     /// </summary>
-
-
     public class Site : IEquatable<Site>, IComparable<Site> {
         private static int _siteCount;
         public static void ResetSiteCount() { _siteCount = 0; }
@@ -49,10 +47,12 @@ namespace VoronoiMap {
         public void AddEdge(Edge e) {
             Edges.Add(e);
         }
+
         public Edge NearestEdge() {
             Edges.Sort(Edge.CompareSiteDistances);
             return Edges.FirstOrDefault();
         }
+
         private Site NeighborSite(Edge edge) {
             if (this == edge.Region[Side.Left]) {
                 return edge.Region[Side.Right];
@@ -62,6 +62,7 @@ namespace VoronoiMap {
             }
             return null;
         }
+
         public List<Site> NeighborSites() {
             if (Edges.Count == 0) {
                 return new List<Site>();
@@ -71,6 +72,7 @@ namespace VoronoiMap {
             }
             return Edges.Select(NeighborSite).ToList();
         }
+
         private void ReorderEdges() {
             var reorderer = new EdgeReorderer(Edges, Criterion.Vertex);
             Edges = reorderer.Edges;
@@ -102,14 +104,16 @@ namespace VoronoiMap {
                 _region.Reverse();
             }
         }
+
         private static bool CloseEnough(Site p0, Site p1) {
             return Distance(p0, p1) < .005f;
         }
+
         private List<Site> ClipToBounds(RectangleF bounds) {
             var points = new List<Site>();
             int i = -1;
             for (int j = 0; j < Edges.Count; j++) {
-                var edge = Edges[j];
+                Edge edge = Edges[j];
                 if (edge == null || !edge.Visible) {
                     continue;
                 }
@@ -127,6 +131,7 @@ namespace VoronoiMap {
             }
             return points;
         }
+
         private void Connect(List<Site> points, int j, RectangleF bounds, bool closingUp = false) {
             var rightPoint = points.Last();
             var newEdge = Edges[j];
@@ -208,8 +213,6 @@ namespace VoronoiMap {
             return Math.Abs(X - other.X) < Tolerance && Math.Abs(Y - other.Y) < Tolerance;
         }
 
-        
-
         public override bool Equals(object obj) {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -230,8 +233,6 @@ namespace VoronoiMap {
             return Equals(left, right);
         }
         public static bool operator !=(Site left, Site right) { return !Equals(left, right); }
-
-
 
         public int CompareTo(Site other) {
             if (other == null) return 1;

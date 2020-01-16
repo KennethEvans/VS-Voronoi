@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 
 namespace VoronoiMap {
-
     /// <summary>
     /// Adapted from http://philogb.github.io/blog/2010/02/12/voronoi-tessellation/
     /// Also uses portions from https://github.com/SirAnthony/cppdelaunay
@@ -20,8 +19,8 @@ namespace VoronoiMap {
         private bool _edgeFixup;
         public int StepNumber { get; private set; }
 
-
-        public Voronoi(IEnumerable<BasicSite> basicSites, int w = 800, int h = 600, bool debug=false) {
+        public Voronoi(IEnumerable<BasicSite> basicSites, float w = 800,
+            float h = 600, bool debug=false) {
             _sites = new SiteList(basicSites);
             _sites.LogSites();
             _graph = new VoronoiGraph(w, h) {Debug = debug};
@@ -34,15 +33,11 @@ namespace VoronoiMap {
         public VoronoiGraph Initialize() {
             _sites.BottomSite = _sites.ExtractMin();
             _graph.PlotSite(_sites.BottomSite);
-
             _newSite = _sites.ExtractMin();
             if (_newSite.Y > _graph.SweepLine) {
                 _graph.SweepLine = _newSite.Y;
             }
-
-
             _newIntStar = new Site(float.MaxValue, float.MaxValue);
-            
             return _graph;
         }
 
@@ -51,13 +46,11 @@ namespace VoronoiMap {
             if (!_edgeFixup) {
                 if (!_eventQueue.IsEmpty) {
                     _newIntStar = _eventQueue.Min();
-                    
                 }
-
-                if (_newSite != null && (_eventQueue.IsEmpty || /*Geometry.CompareByYThenX(_newSite, _newIntStar)*/ _newSite.CompareTo(_newIntStar) < 0 )) {
-
+                if (_newSite != null && (_eventQueue.IsEmpty ||
+                    /*Geometry.CompareByYThenX(_newSite, _newIntStar)*/
+                    _newSite.CompareTo(_newIntStar) < 0 )) {
                     _graph.PlotSite(_newSite);
-
                     var lbnd = _edgeList.LeftBound(_newSite);
                     var rbnd = lbnd.Right;
                     var bot = _edgeList.RightRegion(lbnd);
@@ -81,7 +74,8 @@ namespace VoronoiMap {
                         if (_graph.Debug) {
                             Console.WriteLine("Inserting {0}", p);
                         }
-                        _eventQueue.Insert(bisector, p, Site.Distance(p, _newSite));
+                        _eventQueue.Insert(bisector, p, 
+                            Site.Distance(p, _newSite));
                     }
                     _newSite = _sites.ExtractMin();
                     if (_newSite !=null && _newSite.Y > _graph.SweepLine) {
@@ -89,7 +83,6 @@ namespace VoronoiMap {
                     } else if (_newSite == null) {
                         _graph.SweepLine = _graph.Height;
                     }
-
                 } else if (!_eventQueue.IsEmpty) { // intersection is smallest
                     var lbnd = _eventQueue.ExtractMin();
                     var llbnd = lbnd.Left;
@@ -99,9 +92,7 @@ namespace VoronoiMap {
                     var top = _edgeList.RightRegion(rbnd);
                     _graph.PlotTriple(bot, top, _edgeList.RightRegion(lbnd));
                     var v = lbnd.Vertex;
-
                     _graph.PlotVertex(v);
-
                     _graph.EndPoint(lbnd.Edge, lbnd.Side, v);
                     _graph.EndPoint(rbnd.Edge, rbnd.Side, v);
                     EdgeList.Delete(lbnd);
@@ -118,7 +109,8 @@ namespace VoronoiMap {
                     _graph.PlotBisector(e);
                     var bisector = new HalfEdge(e, pm);
                     EdgeList.Insert(llbnd, bisector);
-                    _graph.EndPoint(e, pm == Side.Left ? Side.Right : Side.Left, v);
+                    _graph.EndPoint(e, 
+                        pm == Side.Left ? Side.Right : Side.Left, v);
                     var p = Site.CreateIntersectingSite(llbnd, bisector);
                     if (p != null) {
                         _eventQueue.Delete(llbnd);
@@ -147,7 +139,8 @@ namespace VoronoiMap {
                     StepNumber++;
                 } else {
                     foreach (var edge in _graph.Edges) {
-                        edge.ClipVertices(new Rectangle(0, 0, _graph.Width, _graph.Height));
+                        edge.ClipVertices(new RectangleF(0, 0,
+                            _graph.Width, _graph.Height));
                     }
                     if (_graph.Debug) {
                         Console.WriteLine("Done computing graph!");

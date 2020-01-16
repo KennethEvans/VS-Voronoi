@@ -2,14 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Reflection;
+using KEUtils;
 using log4net;
 
 namespace VoronoiMap {
     public class VoronoiGraph {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public bool Debug { get; set; }
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        public float Width { get; private set; }
+        public float Height { get; private set; }
 
         public readonly List<Site> Sites = new List<Site>();
         public readonly List<Site> Vertices = new List<Site>();
@@ -18,15 +19,14 @@ namespace VoronoiMap {
         public readonly List<Edge> Edges = new List<Edge>();
         public float SweepLine { get; set; }
 
-        public VoronoiGraph(int width = 800, int height = 600) {
+        public VoronoiGraph(float width = 800, float height = 600) {
             Width = width;
             Height = height;
             Debug = false;
         }
 
-
         public static VoronoiGraph ComputeVoronoiGraph(IEnumerable<BasicSite> basicSites,
-          int w = 800, int h = 600, bool debug=false) {
+          float w = 800, float h = 600, bool debug=false) {
             var sites = new SiteList(basicSites);
             if (debug) {
                 sites.LogSites();
@@ -141,16 +141,13 @@ namespace VoronoiMap {
                     graph.PlotEndpoint(e);
                 }
             } catch (Exception ex) {
-                Console.WriteLine("########################################");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
+                Utils.excMsg("Error creating VeronoiGraph", ex);
             }
             graph.SweepLine = graph.Height;
             graph.ResetNewItems();
             foreach (var edge in graph.Edges) {
-                edge.ClipVertices(new Rectangle(0,0, w, h));
+                edge.ClipVertices(new RectangleF(0,0, w, h));
             }
-            
             return graph;
         }
 
@@ -222,7 +219,7 @@ namespace VoronoiMap {
         /// </summary>
         /// <param name="e"></param>
         private void ClipLine(Edge e) {
-            var clipped = e.GetClippedEnds(new Rectangle(0, 0, Width, Height));
+            var clipped = e.GetClippedEnds(new RectangleF(0, 0, Width, Height));
             if (clipped != null) {
                 var site1 = new Site(clipped.Item1);
                 var site2 = new Site(clipped.Item2);

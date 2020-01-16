@@ -51,6 +51,9 @@
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInputFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.writeMapDataFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.indentedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.notIndentedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -455,6 +458,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openInputFileToolStripMenuItem,
+            this.writeMapDataFileToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 45);
@@ -463,14 +467,37 @@
             // openInputFileToolStripMenuItem
             // 
             this.openInputFileToolStripMenuItem.Name = "openInputFileToolStripMenuItem";
-            this.openInputFileToolStripMenuItem.Size = new System.Drawing.Size(358, 46);
+            this.openInputFileToolStripMenuItem.Size = new System.Drawing.Size(408, 46);
             this.openInputFileToolStripMenuItem.Text = "Open Input File...";
             this.openInputFileToolStripMenuItem.Click += new System.EventHandler(this.file_OpenInput_click);
+            // 
+            // writeMapDataFileToolStripMenuItem
+            // 
+            this.writeMapDataFileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.indentedToolStripMenuItem,
+            this.notIndentedToolStripMenuItem});
+            this.writeMapDataFileToolStripMenuItem.Name = "writeMapDataFileToolStripMenuItem";
+            this.writeMapDataFileToolStripMenuItem.Size = new System.Drawing.Size(408, 46);
+            this.writeMapDataFileToolStripMenuItem.Text = "Write Map Data file...";
+            // 
+            // indentedToolStripMenuItem
+            // 
+            this.indentedToolStripMenuItem.Name = "indentedToolStripMenuItem";
+            this.indentedToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
+            this.indentedToolStripMenuItem.Text = "Indented";
+            this.indentedToolStripMenuItem.Click += new System.EventHandler(this.file_SaveMapDataFileIndented_click);
+            // 
+            // notIndentedToolStripMenuItem
+            // 
+            this.notIndentedToolStripMenuItem.Name = "notIndentedToolStripMenuItem";
+            this.notIndentedToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
+            this.notIndentedToolStripMenuItem.Text = "Not Indented";
+            this.notIndentedToolStripMenuItem.Click += new System.EventHandler(this.file_SaveMapDataFileNotIndented_click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(358, 46);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(408, 46);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.file_Exit_click);
             // 
@@ -557,5 +584,8 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkUseFile;
         private System.Windows.Forms.CheckBox chkShowNumbers;
+        private System.Windows.Forms.ToolStripMenuItem writeMapDataFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem indentedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem notIndentedToolStripMenuItem;
     }
 }

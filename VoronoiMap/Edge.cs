@@ -33,19 +33,17 @@ namespace VoronoiMap {
             }
         }
 
-
         private Edge(Site s1, Site s2) {
             Region = new Site[2];
             Endpoint = new Site[2];
             ClippedEndpoints = new Site[2];
-
             Region[Side.Left] = s1;
             Region[Side.Right] = s2;
             EdgeNum = EdgeCount++;
-
             s1.AddEdge(this);
             s2.AddEdge(this);
         }
+
         public override string ToString() {
             return String.Format("#{7} A={0} B={1} C={2} Ep[L]={3} Ep[R]={4} R[L]={5}, R[R]={6}",
                                  A, B, C, Endpoint[0], Endpoint[1], Region[0], Region[1], EdgeNum);
@@ -70,28 +68,23 @@ namespace VoronoiMap {
         public static int CompareSiteDistances(Edge e0, Edge e1) {
             return -CompareSiteDistancesMax(e0, e1);
         }
-        public void ClipVertices(Rectangle bounds) {
-            
-            var clipped = GetClippedEnds(bounds);
 
+        public void ClipVertices(RectangleF bounds) {
+            var clipped = GetClippedEnds(bounds);
             if (clipped == null) {
                 return;
             }
-
             ClippedEndpoints[Side.Left] = new Site(clipped.Item1);
             ClippedEndpoints[Side.Right] = new Site(clipped.Item2);
         }
 
-        public Tuple<PointF, PointF> GetClippedEnds(Rectangle bounds) {
+        public Tuple<PointF, PointF> GetClippedEnds(RectangleF bounds) {
             Site vertex0, vertex1;
             var xmin = bounds.X;
             var ymin = bounds.Y;
             var xmax = bounds.Right;
             var ymax = bounds.Bottom;
-
-
             float x0, x1, y0, y1;
-
             if (Math.Abs(A - 1.0) < Double.Epsilon && B >= 0.0) {
                 vertex0 = RightVertex;
                 vertex1 = LeftVertex;
@@ -99,7 +92,6 @@ namespace VoronoiMap {
                 vertex0 = LeftVertex;
                 vertex1 = RightVertex;
             }
-
             if (Math.Abs(A - 1.0) < Double.Epsilon) {
                 y0 = ymin;
                 if (vertex0 != null && vertex0.Y > ymin)
@@ -107,9 +99,7 @@ namespace VoronoiMap {
                 if (y0 > ymax) {
                     return null;
                 }
-
                 x0 = C - B*y0;
-
                 y1 = ymax;
                 if (vertex1 != null && vertex1.Y < ymax)
                     y1 = vertex1.Y;
@@ -117,11 +107,9 @@ namespace VoronoiMap {
                     return null;
                 }
                 x1 = C - B*y1;
-
                 if ((x0 > xmax && x1 > xmax) || (x0 < xmin && x1 < xmin)) {
                     return null;
                 }
-
                 if (x0 > xmax) {
                     x0 = xmax;
                     y0 = (C - x0)/B;
@@ -129,7 +117,6 @@ namespace VoronoiMap {
                     x0 = xmin;
                     y0 = (C - x0)/B;
                 }
-
                 if (x1 > xmax) {
                     x1 = xmax;
                     y1 = (C - x1)/B;
@@ -144,18 +131,14 @@ namespace VoronoiMap {
                 if (x0 > xmax) {
                     return null;
                 }
-
                 y0 = C - A*x0;
-
                 x1 = xmax;
                 if (vertex1 != null && vertex1.X < xmax)
                     x1 = vertex1.X;
                 if (x1 < xmin) {
                     return null;
                 }
-
                 y1 = C - A*x1;
-
                 if ((y0 > ymax && y1 > ymax) || (y0 < ymin && y1 < ymin)) {
                     return null;
                 }
@@ -166,7 +149,6 @@ namespace VoronoiMap {
                     y0 = ymin;
                     x0 = (C - y0)/A;
                 }
-
                 if (y1 > ymax) {
                     y1 = ymax;
                     x1 = (C - y1)/A;
