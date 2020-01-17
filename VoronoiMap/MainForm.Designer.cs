@@ -74,7 +74,7 @@
             this.splitPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitPanel.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitPanel.IsSplitterFixed = true;
-            this.splitPanel.Location = new System.Drawing.Point(10, 59);
+            this.splitPanel.Location = new System.Drawing.Point(10, 62);
             this.splitPanel.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.splitPanel.Name = "splitPanel";
             // 
@@ -88,7 +88,7 @@
             // 
             this.splitPanel.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitPanel.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
-            this.splitPanel.Size = new System.Drawing.Size(1448, 981);
+            this.splitPanel.Size = new System.Drawing.Size(1448, 978);
             this.splitPanel.SplitterDistance = 250;
             this.splitPanel.SplitterWidth = 10;
             this.splitPanel.TabIndex = 0;
@@ -141,7 +141,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(246, 977);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(246, 974);
             this.tableLayoutPanel1.TabIndex = 19;
             // 
             // label2
@@ -450,7 +450,7 @@
             this.helpToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(10, 10);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1448, 49);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1448, 52);
             this.mainMenuStrip.TabIndex = 1;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
@@ -461,7 +461,7 @@
             this.writeMapDataFileToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 45);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 48);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openInputFileToolStripMenuItem
@@ -506,7 +506,7 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 45);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 48);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem

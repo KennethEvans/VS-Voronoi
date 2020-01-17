@@ -9,6 +9,8 @@ namespace VoronoiMap {
     public class VoronoiGraph {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public bool Debug { get; set; }
+        public float X { get; private set; }
+        public float Y { get; private set; }
         public float Width { get; private set; }
         public float Height { get; private set; }
 
@@ -19,25 +21,25 @@ namespace VoronoiMap {
         public readonly List<Edge> Edges = new List<Edge>();
         public float SweepLine { get; set; }
 
-        public VoronoiGraph(float width = 800, float height = 600) {
-            Width = width;
-            Height = height;
+        public VoronoiGraph(float x, float y, float w, float h) {
+            X = x;
+            Y = y;
+            Width = w;
+            Height = h;
             Debug = false;
         }
 
         public static VoronoiGraph ComputeVoronoiGraph(IEnumerable<BasicSite> basicSites,
-          float w = 800, float h = 600, bool debug=false) {
+            float x, float y, float w, float h, bool debug = false) {
             var sites = new SiteList(basicSites);
             if (debug) {
                 sites.LogSites();
             }
-            var graph = new VoronoiGraph(w, h) { Debug = debug };
+            var graph = new VoronoiGraph(x, y, w, h) { Debug = debug };
             try {
                 var edgeList = new EdgeList(sites);
                 var eventQueue = new EventQueue();
-
                 sites.BottomSite = sites.ExtractMin();
-
                 graph.PlotSite(sites.BottomSite);
 
                 var newSite = sites.ExtractMin();
@@ -47,22 +49,16 @@ namespace VoronoiMap {
                     if (!eventQueue.IsEmpty) {
                         newIntStar = eventQueue.Min();
                     }
-
                     if (newSite != null && (eventQueue.IsEmpty || newSite.CompareTo(newIntStar) < 0)) {
                         // new site is smallest
                         graph.PlotSite(newSite);
-
                         var lbnd = edgeList.LeftBound(newSite);
                         var rbnd = lbnd.Right;
-
                         var bot = edgeList.RightRegion(lbnd);
-
                         var e = Edge.CreateBisectingEdge(bot, newSite);
                         graph.PlotBisector(e);
-
                         var bisector = new HalfEdge(e, Side.Left);
                         EdgeList.Insert(lbnd, bisector);
-
                         var p = Site.CreateIntersectingSite(lbnd, bisector);
                         if (p != null) {
                             eventQueue.Delete(lbnd);
@@ -71,11 +67,9 @@ namespace VoronoiMap {
                             }
                             eventQueue.Insert(lbnd, p, Site.Distance(p, newSite));
                         }
-
                         lbnd = bisector;
                         bisector = new HalfEdge(e, Side.Right);
                         EdgeList.Insert(lbnd, bisector);
-
                         p = Site.CreateIntersectingSite(bisector, rbnd);
                         if (p != null) {
                             if (debug) {
@@ -84,7 +78,6 @@ namespace VoronoiMap {
                             eventQueue.Insert(bisector, p, Site.Distance(p, newSite));
                         }
                         newSite = sites.ExtractMin();
-
                     } else if (!eventQueue.IsEmpty) {
                         // intersection is smallest
                         var lbnd = eventQueue.ExtractMin();
@@ -94,16 +87,13 @@ namespace VoronoiMap {
                         var bot = edgeList.LeftRegion(lbnd);
                         var top = edgeList.RightRegion(rbnd);
                         graph.PlotTriple(bot, top, edgeList.RightRegion(lbnd));
-
                         var v = lbnd.Vertex;
                         graph.PlotVertex(v);
-
                         graph.EndPoint(lbnd.Edge, lbnd.Side, v);
                         graph.EndPoint(rbnd.Edge, rbnd.Side, v);
                         EdgeList.Delete(lbnd);
                         eventQueue.Delete(rbnd);
                         EdgeList.Delete(rbnd);
-
                         var pm = Side.Left;
                         if (bot.Y > top.Y) {
                             var temp = bot;
@@ -113,7 +103,6 @@ namespace VoronoiMap {
                         }
                         var e = Edge.CreateBisectingEdge(bot, top);
                         graph.PlotBisector(e);
-
                         var bisector = new HalfEdge(e, pm);
                         EdgeList.Insert(llbnd, bisector);
                         graph.EndPoint(e, Side.Other(pm), v);
@@ -146,7 +135,7 @@ namespace VoronoiMap {
             graph.SweepLine = graph.Height;
             graph.ResetNewItems();
             foreach (var edge in graph.Edges) {
-                edge.ClipVertices(new RectangleF(0,0, w, h));
+                edge.ClipVertices(new RectangleF(x, y, w, h));
             }
             return graph;
         }

@@ -33,7 +33,7 @@ namespace VoronoiMap {
         private Bitmap _bitmap;
         private bool bitMapDrawn = false;
         private MapData mapData;
-        private Size plotSize;
+        private MapData mapDataFromFile;
 
         public MainForm() {
             InitializeComponent();
@@ -71,35 +71,60 @@ namespace VoronoiMap {
             _bitmap.Dispose();
         }
 
+        /// <summary>
+        /// Generates a MapData from random values with
+        /// Left=0, Right = Panel2 width, Top = 0 Bottom = Panel2 Height.
+        /// </summary>
+        /// <returns>The MapData</returns>
+        private MapData mapDataFromRandom() {
+#if traceFlow
+            Console.WriteLine("mapDataFromRandom bitMapDrawn =" + bitMapDrawn);
+#endif
+            List<BasicSite> basicSites = new List<BasicSite>();
+            int w = splitPanel.Panel2.ClientSize.Width;
+            int h = splitPanel.Panel2.ClientSize.Height;
+            Random rand = new Random((int)nudSeed.Value);
+            int numSites = (int)nudNumRegions.Value;
+            basicSites = new List<BasicSite>();
+            for (int i = 0; i < numSites; i++) {
+                Color color = Color.FromArgb(rand.Next(256), rand.Next(256),
+                    rand.Next(256));
+                BasicSite site = new BasicSite(rand.Next(w), rand.Next(h),
+                    color);
+                basicSites.Add(site);
+            }
+            // Generate the MapData
+            return new MapData(0, w, 0, h, basicSites);
+        }
+
+        /// <summary>
+        /// Generates a full Voroni graph non-interactively.
+        /// Calculates mapData and _graph.
+        /// </summary>
         private void GenerateGraph() {
+#if traceFlow
+            Console.WriteLine("GenerateGraph bitMapDrawn =" + bitMapDrawn
+                + " chkUseFile.Checked=" + chkUseFile.Checked);
+#endif
             long start = Stopwatch.GetTimestamp();
             List<BasicSite> basicSites = new List<BasicSite>();
             if (chkUseFile.Checked) {
-                Utils.errMsg("GenerateGraph is not implemented for using a file");
-                return;
-            } else {
-                Random rand = new Random((int)nudSeed.Value);
-                int w = splitPanel.Panel2.ClientSize.Width;
-                int h = splitPanel.Panel2.ClientSize.Height;
-                plotSize = new Size(w, h);
-                int numSites = (int)nudNumRegions.Value;
-                basicSites = new List<BasicSite>();
-                for (int i = 0; i < numSites; i++) {
-                    Color color = Color.FromArgb(rand.Next(256), rand.Next(256),
-                        rand.Next(256));
-                    BasicSite site = new BasicSite(rand.Next(w), rand.Next(h),
-                        color);
-                    basicSites.Add(site);
+                if (mapDataFromFile == null) {
+                    Utils.errMsg("There is no map data from a file");
+                    return;
                 }
-                // Generate the MapData
-                mapData = new MapData(0, w, 0, h, basicSites);
+                mapData = mapDataFromFile;
+            } else {
+                mapData = mapDataFromRandom();
             }
             if (nudRelax.Value > 0) {
-                basicSites = RelaxPoints((int)nudRelax.Value, basicSites);
+                basicSites = RelaxPoints((int)nudRelax.Value, mapData.SiteList);
                 mapData.SiteList = basicSites;
             }
-            _graph = VoronoiGraph.ComputeVoronoiGraph(basicSites,
-                mapData.Width, mapData.Height, chDebug.Checked);
+            _graph = 
+            VoronoiGraph.ComputeVoronoiGraph(mapData.SiteList, 
+            mapData.Right, mapData.Top, mapData.Width, mapData.Height,
+            chDebug.Checked);
 #if dumpSites
             dumpSites();
 #endif            
@@ -107,17 +132,54 @@ namespace VoronoiMap {
             Console.WriteLine("GenerateGraph done! " + " elapsed time " + elapsed);
         }
 
-        private void splitContainer1_Panel2_Paint(object sender,
-            PaintEventArgs e) {
-            Graphics g = e.Graphics;
-            PaintDiagram(g);
+        /// <summary>
+        /// Initializes for an interactive, incremental graph.
+        /// Calculates mapData and _graph.
+        /// </summary>
+        private void InitializeVoronoi() {
+            _sitesToIgnore = new HashSet<Site>();
+            Console.Clear();
+            nudStepTo.Value = 0;
+            Edge.EdgeCount = 0;
+            List<BasicSite> basicSites = new List<BasicSite>();
+            if (chkUseFile.Checked) {
+                if (mapDataFromFile == null) {
+                    Utils.errMsg("There is no map data from a file");
+                    return;
+                }
+                mapData = mapDataFromFile;
+            } else {
+                mapData = mapDataFromRandom();
+            }
+            if (nudRelax.Value > 0) {
+                basicSites = RelaxPoints((int)nudRelax.Value, mapData.SiteList);
+                mapData.SiteList = basicSites;
+            }
+            if (nudRelax.Value > 0) {
+                basicSites = RelaxPoints((int)nudRelax.Value, mapData.SiteList);
+                mapData.SiteList = basicSites;
+            }
+            _voronoi = new Voronoi(mapData.SiteList, mapData.Left, 
+                mapData.Top, mapData.Width, mapData.Height, chDebug.Checked);
+            _graph = _voronoi.Initialize();
         }
 
+        /// <summary>
+        /// Container method for painting.  Calls either PaintDiagramFull or
+        /// PaintDiagramIncremental, depending on the value of full.  Does 
+        /// nothing if bitMapCalulated = false, to avoid repainting when the
+        /// Form is moved.
+        /// </summary>
+        /// <param name="g The graphics."></param>
+        /// <param name="full Whether to use PaintDiagramFull or
+        /// PaintDiagramIncremental."></param>
         private void PaintDiagram(Graphics g, bool full = true) {
             if (_graph == null) {
                 Utils.errMsg("Graph is not defined");
                 return;
             }
+            // g1 is used to paint the _bitmap.
+            // g draws the _bitmap to the Control (Panel2).
             using (Graphics g1 = Graphics.FromImage(_bitmap)) {
                 g1.SmoothingMode = SmoothingMode.AntiAlias;
                 if (full) {
@@ -139,10 +201,10 @@ namespace VoronoiMap {
                 g.VisibleClipBounds);
             g.Transform = m;
             // DEBUG
-            Console.WriteLine("PaintDiagramFull Matrix");
-            Console.WriteLine("mapData.Bounds=" + mapData.Bounds);
-            Console.WriteLine("g.VisibleClipBounds=" + g.VisibleClipBounds);
-            string stringVal = "";
+            Console.WriteLine("PaintDiagramFull Matrix:");
+            Console.WriteLine("  mapData.Bounds=" + mapData.Bounds);
+            Console.WriteLine("  g.VisibleClipBounds=" + g.VisibleClipBounds);
+            string stringVal = "  ";
             foreach (float val in m.Elements) {
                 stringVal += " " + val;
             }
@@ -333,31 +395,6 @@ namespace VoronoiMap {
             }
         }
 
-        private void InitializeVoronoi() {
-            _sitesToIgnore = new HashSet<Site>();
-            Console.Clear();
-            nudStepTo.Value = 0;
-            Edge.EdgeCount = 0;
-            Random rand = new Random((int)nudSeed.Value);
-            int w = splitPanel.Panel2.ClientSize.Width;
-            int h = splitPanel.Panel2.ClientSize.Height;
-            Console.WriteLine("InitializeVoronoi: Width=" + w + " Height=" + h);
-            int numSites = (int)nudNumRegions.Value;
-            List<BasicSite> sites = new List<BasicSite>();
-            for (int i = 0; i < numSites; i++) {
-                Color color = Color.FromArgb(rand.Next(256), rand.Next(256),
-                    rand.Next(256));
-                BasicSite site = new BasicSite(rand.Next(w), rand.Next(h), color);
-                sites.Add(site);
-            }
-            if (nudRelax.Value > 0) {
-                sites = RelaxPoints((int)nudRelax.Value, sites);
-            }
-            _voronoi = new Voronoi(sites, w, h, chDebug.Checked);
-            _graph = _voronoi.Initialize();
-
-        }
-
         private List<BasicSite> RelaxPoints(int times, List<BasicSite> sites) {
             List<BasicSite> ret = new List<BasicSite>();
             int w = splitPanel.Panel2.ClientSize.Width;
@@ -365,7 +402,7 @@ namespace VoronoiMap {
             List<BasicSite> tempPoints = sites;
             for (int i = 0; i < times; i++) {
                 VoronoiGraph voronoi =
-                    VoronoiGraph.ComputeVoronoiGraph(tempPoints, w, h);
+                    VoronoiGraph.ComputeVoronoiGraph(tempPoints, mapData.Right, mapData.Top, mapData.Width, mapData.Height);
                 tempPoints.Clear();
                 foreach (Site site in voronoi.Sites) {
                     List<Site> region =
@@ -425,7 +462,7 @@ namespace VoronoiMap {
 #if traceFlow
             Console.WriteLine("btnStepVoronoi_Click bitMapDrawn =" + bitMapDrawn);
 #endif
-           using (Graphics graphics = splitPanel.Panel2.CreateGraphics()) {
+            using (Graphics graphics = splitPanel.Panel2.CreateGraphics()) {
                 _graph = _voronoi.StepVoronoi();
                 nudStepTo.Value++;
                 bitMapDrawn = false;
@@ -518,13 +555,18 @@ namespace VoronoiMap {
             btnRegen_Click(null, null);
         }
 
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e) {
+            Graphics g = e.Graphics;
+            PaintDiagram(g);
+        }
+
         private void cbCircles_SelectedIndexChanged(object sender, EventArgs e) {
             splitPanel.Panel2.Invalidate();
         }
 
         private void file_OpenInput_click(object sender, EventArgs e) {
-            mapData = MapData.openFile();
-            if (mapData == null) {
+            mapDataFromFile = MapData.openFile();
+            if (mapDataFromFile == null) {
                 Utils.warnMsg("Failed to open Map Data file");
             }
         }
@@ -540,12 +582,20 @@ namespace VoronoiMap {
 
         private void file_SaveMapDataFileIndented_click(object sender,
             EventArgs e) {
-
+            if (mapData == null) {
+                Utils.errMsg("There is no map data to save.");
+                return;
+            }
+            mapData.saveFile(true);
         }
 
         private void file_SaveMapDataFileNotIndented_click(object sender,
             EventArgs e) {
-
+            if (mapData == null) {
+                Utils.errMsg("There is no map data to save.");
+                return;
+            }
+            mapData.saveFile(false);
         }
     }
 }

@@ -21,6 +21,13 @@ namespace VoronoiMap {
             get { return new RectangleF(Left, Top, Width, Height); }
         }
 
+        public MapData() {
+            Left = 0;
+            Right = 0;
+            Top = 0;
+            Bottom = 0;
+        }
+
         public MapData(float left, float right, float top, float bottom,
             List<BasicSite> siteList) {
             Left = left;
@@ -36,6 +43,7 @@ namespace VoronoiMap {
             Left = newMapData.Left;
             Right = newMapData.Right;
             Top = newMapData.Top;
+            Bottom = newMapData.Bottom;
             BasicSite newBasicSite;
             foreach (BasicSite basicSite in newMapData.SiteList) {
                 newBasicSite = new BasicSite(basicSite.X, basicSite.Y,

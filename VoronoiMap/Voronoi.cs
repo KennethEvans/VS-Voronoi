@@ -7,7 +7,7 @@ namespace VoronoiMap {
     /// Adapted from http://philogb.github.io/blog/2010/02/12/voronoi-tessellation/
     /// Also uses portions from https://github.com/SirAnthony/cppdelaunay
     /// </summary>
-    public  class Voronoi {
+    public class Voronoi {
         private readonly VoronoiGraph _graph;
         private readonly SiteList _sites;
         private readonly EdgeList _edgeList;
@@ -19,11 +19,11 @@ namespace VoronoiMap {
         private bool _edgeFixup;
         public int StepNumber { get; private set; }
 
-        public Voronoi(IEnumerable<BasicSite> basicSites, float w = 800,
-            float h = 600, bool debug=false) {
+        public Voronoi(IEnumerable<BasicSite> basicSites,
+            float x, float y, float w, float h, bool debug = false) {
             _sites = new SiteList(basicSites);
             _sites.LogSites();
-            _graph = new VoronoiGraph(w, h) {Debug = debug};
+            _graph = new VoronoiGraph(x, y, w, h) { Debug = debug };
             _edgeList = new EdgeList(_sites);
             _eventQueue = new EventQueue();
             _edgeFixup = false;
@@ -49,7 +49,7 @@ namespace VoronoiMap {
                 }
                 if (_newSite != null && (_eventQueue.IsEmpty ||
                     /*Geometry.CompareByYThenX(_newSite, _newIntStar)*/
-                    _newSite.CompareTo(_newIntStar) < 0 )) {
+                    _newSite.CompareTo(_newIntStar) < 0)) {
                     _graph.PlotSite(_newSite);
                     var lbnd = _edgeList.LeftBound(_newSite);
                     var rbnd = lbnd.Right;
@@ -74,11 +74,11 @@ namespace VoronoiMap {
                         if (_graph.Debug) {
                             Console.WriteLine("Inserting {0}", p);
                         }
-                        _eventQueue.Insert(bisector, p, 
+                        _eventQueue.Insert(bisector, p,
                             Site.Distance(p, _newSite));
                     }
                     _newSite = _sites.ExtractMin();
-                    if (_newSite !=null && _newSite.Y > _graph.SweepLine) {
+                    if (_newSite != null && _newSite.Y > _graph.SweepLine) {
                         _graph.SweepLine = _newSite.Y;
                     } else if (_newSite == null) {
                         _graph.SweepLine = _graph.Height;
@@ -109,7 +109,7 @@ namespace VoronoiMap {
                     _graph.PlotBisector(e);
                     var bisector = new HalfEdge(e, pm);
                     EdgeList.Insert(llbnd, bisector);
-                    _graph.EndPoint(e, 
+                    _graph.EndPoint(e,
                         pm == Side.Left ? Side.Right : Side.Left, v);
                     var p = Site.CreateIntersectingSite(llbnd, bisector);
                     if (p != null) {
