@@ -27,27 +27,29 @@
             this.splitPanel = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.seedLabel = new System.Windows.Forms.Label();
-            this.btnAnimate = new System.Windows.Forms.Button();
-            this.btnStepVoronoi = new System.Windows.Forms.Button();
-            this.btnStepTo = new System.Windows.Forms.Button();
-            this.nudStepTo = new System.Windows.Forms.NumericUpDown();
-            this.nudRelax = new System.Windows.Forms.NumericUpDown();
-            this.btnInitialize = new System.Windows.Forms.Button();
             this.nudSeed = new System.Windows.Forms.NumericUpDown();
             this.numRegionLabel = new System.Windows.Forms.Label();
             this.nudNumRegions = new System.Windows.Forms.NumericUpDown();
-            this.chkDebug = new System.Windows.Forms.CheckBox();
-            this.btnRegen = new System.Windows.Forms.Button();
             this.relaxLabel = new System.Windows.Forms.Label();
+            this.nudRelax = new System.Windows.Forms.NumericUpDown();
             this.chkShowSites = new System.Windows.Forms.CheckBox();
             this.chkShowVertices = new System.Windows.Forms.CheckBox();
             this.chkShowEdges = new System.Windows.Forms.CheckBox();
-            this.chkUseFile = new System.Windows.Forms.CheckBox();
             this.chkShowNumbers = new System.Windows.Forms.CheckBox();
-            this.cbCircles = new System.Windows.Forms.ComboBox();
+            this.chkUseFile = new System.Windows.Forms.CheckBox();
             this.circleLabel = new System.Windows.Forms.Label();
-            this.stepLabel = new System.Windows.Forms.Label();
+            this.cbCircles = new System.Windows.Forms.ComboBox();
+            this.chkDebug = new System.Windows.Forms.CheckBox();
             this.chkBeachline = new System.Windows.Forms.CheckBox();
+            this.btnInitialize = new System.Windows.Forms.Button();
+            this.btnRegen = new System.Windows.Forms.Button();
+            this.btnStepVoronoi = new System.Windows.Forms.Button();
+            this.btnStepTo = new System.Windows.Forms.Button();
+            this.stepLabel = new System.Windows.Forms.Label();
+            this.nudStepTo = new System.Windows.Forms.NumericUpDown();
+            this.btnAnimate = new System.Windows.Forms.Button();
+            this.fileNameLabel = new System.Windows.Forms.Label();
+            this.fileNameTextBox = new System.Windows.Forms.TextBox();
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInputFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,16 +63,14 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fileNameTextBox = new System.Windows.Forms.TextBox();
-            this.fileNameLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitPanel)).BeginInit();
             this.splitPanel.Panel1.SuspendLayout();
             this.splitPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudStepTo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRelax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumRegions)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRelax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudStepTo)).BeginInit();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -166,81 +166,6 @@
             this.seedLabel.Text = "Seed:";
             this.seedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // btnAnimate
-            // 
-            this.btnAnimate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnAnimate.Location = new System.Drawing.Point(131, 907);
-            this.btnAnimate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.btnAnimate.Name = "btnAnimate";
-            this.btnAnimate.Size = new System.Drawing.Size(107, 55);
-            this.btnAnimate.TabIndex = 14;
-            this.btnAnimate.Text = "Animate";
-            this.btnAnimate.UseVisualStyleBackColor = true;
-            this.btnAnimate.Click += new System.EventHandler(this.btnAnimate_Click);
-            // 
-            // btnStepVoronoi
-            // 
-            this.btnStepVoronoi.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnStepVoronoi.Location = new System.Drawing.Point(8, 786);
-            this.btnStepVoronoi.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.btnStepVoronoi.Name = "btnStepVoronoi";
-            this.btnStepVoronoi.Size = new System.Drawing.Size(107, 55);
-            this.btnStepVoronoi.TabIndex = 7;
-            this.btnStepVoronoi.Text = "Step Graph";
-            this.btnStepVoronoi.UseVisualStyleBackColor = true;
-            this.btnStepVoronoi.Click += new System.EventHandler(this.btnStepVoronoi_Click);
-            // 
-            // btnStepTo
-            // 
-            this.btnStepTo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnStepTo.Location = new System.Drawing.Point(131, 786);
-            this.btnStepTo.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.btnStepTo.Name = "btnStepTo";
-            this.btnStepTo.Size = new System.Drawing.Size(107, 55);
-            this.btnStepTo.TabIndex = 11;
-            this.btnStepTo.Text = "Step to:";
-            this.btnStepTo.UseVisualStyleBackColor = true;
-            this.btnStepTo.Click += new System.EventHandler(this.btnStepTo_Click);
-            // 
-            // nudStepTo
-            // 
-            this.nudStepTo.Location = new System.Drawing.Point(131, 855);
-            this.nudStepTo.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.nudStepTo.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.nudStepTo.Name = "nudStepTo";
-            this.nudStepTo.Size = new System.Drawing.Size(107, 38);
-            this.nudStepTo.TabIndex = 10;
-            // 
-            // nudRelax
-            // 
-            this.nudRelax.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nudRelax.Location = new System.Drawing.Point(131, 187);
-            this.nudRelax.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.nudRelax.Maximum = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.nudRelax.Name = "nudRelax";
-            this.nudRelax.Size = new System.Drawing.Size(107, 38);
-            this.nudRelax.TabIndex = 18;
-            // 
-            // btnInitialize
-            // 
-            this.btnInitialize.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnInitialize.Location = new System.Drawing.Point(8, 717);
-            this.btnInitialize.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.btnInitialize.Name = "btnInitialize";
-            this.btnInitialize.Size = new System.Drawing.Size(107, 55);
-            this.btnInitialize.TabIndex = 8;
-            this.btnInitialize.Text = "Initialize";
-            this.btnInitialize.UseVisualStyleBackColor = true;
-            this.btnInitialize.Click += new System.EventHandler(this.btnInitialize_Click);
-            // 
             // nudSeed
             // 
             this.nudSeed.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -291,30 +216,6 @@
             0,
             0});
             // 
-            // chkDebug
-            // 
-            this.chkDebug.AutoSize = true;
-            this.chkDebug.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkDebug.Location = new System.Drawing.Point(131, 617);
-            this.chkDebug.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.chkDebug.Name = "chkDebug";
-            this.chkDebug.Size = new System.Drawing.Size(107, 36);
-            this.chkDebug.TabIndex = 12;
-            this.chkDebug.Text = "Debug?";
-            this.chkDebug.UseVisualStyleBackColor = true;
-            // 
-            // btnRegen
-            // 
-            this.btnRegen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnRegen.Location = new System.Drawing.Point(131, 717);
-            this.btnRegen.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.btnRegen.Name = "btnRegen";
-            this.btnRegen.Size = new System.Drawing.Size(107, 55);
-            this.btnRegen.TabIndex = 0;
-            this.btnRegen.Text = "Regenerate Graph";
-            this.btnRegen.UseVisualStyleBackColor = true;
-            this.btnRegen.Click += new System.EventHandler(this.btnRegen_Click);
-            // 
             // relaxLabel
             // 
             this.relaxLabel.AutoSize = true;
@@ -326,6 +227,20 @@
             this.relaxLabel.TabIndex = 17;
             this.relaxLabel.Text = "Relax:";
             this.relaxLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // nudRelax
+            // 
+            this.nudRelax.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudRelax.Location = new System.Drawing.Point(131, 187);
+            this.nudRelax.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.nudRelax.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.nudRelax.Name = "nudRelax";
+            this.nudRelax.Size = new System.Drawing.Size(107, 38);
+            this.nudRelax.TabIndex = 18;
             // 
             // chkShowSites
             // 
@@ -340,7 +255,7 @@
             this.chkShowSites.TabIndex = 3;
             this.chkShowSites.Text = "Show Sites?";
             this.chkShowSites.UseVisualStyleBackColor = true;
-            this.chkShowSites.CheckedChanged += new System.EventHandler(this.chkShowEdges_CheckedChanged);
+            this.chkShowSites.CheckedChanged += new System.EventHandler(this.chkShowSites_CheckedChanged);
             // 
             // chkShowVertices
             // 
@@ -355,7 +270,7 @@
             this.chkShowVertices.TabIndex = 4;
             this.chkShowVertices.Text = "Show Vertices?";
             this.chkShowVertices.UseVisualStyleBackColor = true;
-            this.chkShowVertices.CheckedChanged += new System.EventHandler(this.chkShowEdges_CheckedChanged);
+            this.chkShowVertices.CheckedChanged += new System.EventHandler(this.chkShowVertices_CheckedChanged);
             // 
             // chkShowEdges
             // 
@@ -372,18 +287,6 @@
             this.chkShowEdges.UseVisualStyleBackColor = true;
             this.chkShowEdges.CheckedChanged += new System.EventHandler(this.chkShowEdges_CheckedChanged);
             // 
-            // chkUseFile
-            // 
-            this.chkUseFile.AutoSize = true;
-            this.chkUseFile.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkUseFile.Location = new System.Drawing.Point(131, 439);
-            this.chkUseFile.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.chkUseFile.Name = "chkUseFile";
-            this.chkUseFile.Size = new System.Drawing.Size(107, 36);
-            this.chkUseFile.TabIndex = 21;
-            this.chkUseFile.Text = "Use File?";
-            this.chkUseFile.UseVisualStyleBackColor = true;
-            // 
             // chkShowNumbers
             // 
             this.chkShowNumbers.AutoSize = true;
@@ -397,6 +300,31 @@
             this.chkShowNumbers.TabIndex = 22;
             this.chkShowNumbers.Text = "Show Numbers?";
             this.chkShowNumbers.UseVisualStyleBackColor = true;
+            this.chkShowNumbers.CheckedChanged += new System.EventHandler(this.chkShowNumbers_Click);
+            // 
+            // chkUseFile
+            // 
+            this.chkUseFile.AutoSize = true;
+            this.chkUseFile.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkUseFile.Location = new System.Drawing.Point(131, 439);
+            this.chkUseFile.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.chkUseFile.Name = "chkUseFile";
+            this.chkUseFile.Size = new System.Drawing.Size(107, 36);
+            this.chkUseFile.TabIndex = 21;
+            this.chkUseFile.Text = "Use File?";
+            this.chkUseFile.UseVisualStyleBackColor = true;
+            // 
+            // circleLabel
+            // 
+            this.circleLabel.AutoSize = true;
+            this.circleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.circleLabel.Location = new System.Drawing.Point(8, 482);
+            this.circleLabel.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.circleLabel.Name = "circleLabel";
+            this.circleLabel.Size = new System.Drawing.Size(107, 128);
+            this.circleLabel.TabIndex = 19;
+            this.circleLabel.Text = "Show Circle Events:";
+            this.circleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cbCircles
             // 
@@ -414,29 +342,17 @@
             this.cbCircles.TabIndex = 15;
             this.cbCircles.SelectedIndexChanged += new System.EventHandler(this.cbCircles_SelectedIndexChanged);
             // 
-            // circleLabel
+            // chkDebug
             // 
-            this.circleLabel.AutoSize = true;
-            this.circleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.circleLabel.Location = new System.Drawing.Point(8, 482);
-            this.circleLabel.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.circleLabel.Name = "circleLabel";
-            this.circleLabel.Size = new System.Drawing.Size(107, 128);
-            this.circleLabel.TabIndex = 19;
-            this.circleLabel.Text = "Show Circle Events:";
-            this.circleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // stepLabel
-            // 
-            this.stepLabel.AutoSize = true;
-            this.stepLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.stepLabel.Location = new System.Drawing.Point(8, 848);
-            this.stepLabel.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.stepLabel.Name = "stepLabel";
-            this.stepLabel.Size = new System.Drawing.Size(107, 52);
-            this.stepLabel.TabIndex = 16;
-            this.stepLabel.Text = "Step:";
-            this.stepLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.chkDebug.AutoSize = true;
+            this.chkDebug.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkDebug.Location = new System.Drawing.Point(131, 617);
+            this.chkDebug.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.chkDebug.Name = "chkDebug";
+            this.chkDebug.Size = new System.Drawing.Size(107, 36);
+            this.chkDebug.TabIndex = 12;
+            this.chkDebug.Text = "Debug?";
+            this.chkDebug.UseVisualStyleBackColor = true;
             // 
             // chkBeachline
             // 
@@ -451,6 +367,112 @@
             this.chkBeachline.TabIndex = 20;
             this.chkBeachline.Text = "Show Beachline?";
             this.chkBeachline.UseVisualStyleBackColor = true;
+            this.chkBeachline.CheckedChanged += new System.EventHandler(this.chkShowBeachLine_CheckChanged);
+            // 
+            // btnInitialize
+            // 
+            this.btnInitialize.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnInitialize.Location = new System.Drawing.Point(8, 717);
+            this.btnInitialize.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnInitialize.Name = "btnInitialize";
+            this.btnInitialize.Size = new System.Drawing.Size(107, 55);
+            this.btnInitialize.TabIndex = 8;
+            this.btnInitialize.Text = "Initialize";
+            this.btnInitialize.UseVisualStyleBackColor = true;
+            this.btnInitialize.Click += new System.EventHandler(this.btnInitialize_Click);
+            // 
+            // btnRegen
+            // 
+            this.btnRegen.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRegen.Location = new System.Drawing.Point(131, 717);
+            this.btnRegen.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnRegen.Name = "btnRegen";
+            this.btnRegen.Size = new System.Drawing.Size(107, 55);
+            this.btnRegen.TabIndex = 0;
+            this.btnRegen.Text = "Regenerate Graph";
+            this.btnRegen.UseVisualStyleBackColor = true;
+            this.btnRegen.Click += new System.EventHandler(this.btnRegen_Click);
+            // 
+            // btnStepVoronoi
+            // 
+            this.btnStepVoronoi.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnStepVoronoi.Location = new System.Drawing.Point(8, 786);
+            this.btnStepVoronoi.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnStepVoronoi.Name = "btnStepVoronoi";
+            this.btnStepVoronoi.Size = new System.Drawing.Size(107, 55);
+            this.btnStepVoronoi.TabIndex = 7;
+            this.btnStepVoronoi.Text = "Step Graph";
+            this.btnStepVoronoi.UseVisualStyleBackColor = true;
+            this.btnStepVoronoi.Click += new System.EventHandler(this.btnStepVoronoi_Click);
+            // 
+            // btnStepTo
+            // 
+            this.btnStepTo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnStepTo.Location = new System.Drawing.Point(131, 786);
+            this.btnStepTo.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnStepTo.Name = "btnStepTo";
+            this.btnStepTo.Size = new System.Drawing.Size(107, 55);
+            this.btnStepTo.TabIndex = 11;
+            this.btnStepTo.Text = "Step to:";
+            this.btnStepTo.UseVisualStyleBackColor = true;
+            this.btnStepTo.Click += new System.EventHandler(this.btnStepTo_Click);
+            // 
+            // stepLabel
+            // 
+            this.stepLabel.AutoSize = true;
+            this.stepLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stepLabel.Location = new System.Drawing.Point(8, 848);
+            this.stepLabel.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.stepLabel.Name = "stepLabel";
+            this.stepLabel.Size = new System.Drawing.Size(107, 52);
+            this.stepLabel.TabIndex = 16;
+            this.stepLabel.Text = "Step:";
+            this.stepLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // nudStepTo
+            // 
+            this.nudStepTo.Location = new System.Drawing.Point(131, 855);
+            this.nudStepTo.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.nudStepTo.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudStepTo.Name = "nudStepTo";
+            this.nudStepTo.Size = new System.Drawing.Size(107, 38);
+            this.nudStepTo.TabIndex = 10;
+            // 
+            // btnAnimate
+            // 
+            this.btnAnimate.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnAnimate.Location = new System.Drawing.Point(131, 907);
+            this.btnAnimate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.btnAnimate.Name = "btnAnimate";
+            this.btnAnimate.Size = new System.Drawing.Size(107, 55);
+            this.btnAnimate.TabIndex = 14;
+            this.btnAnimate.Text = "Animate";
+            this.btnAnimate.UseVisualStyleBackColor = true;
+            this.btnAnimate.Click += new System.EventHandler(this.btnAnimate_Click);
+            // 
+            // fileNameLabel
+            // 
+            this.fileNameLabel.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.fileNameLabel, 2);
+            this.fileNameLabel.Location = new System.Drawing.Point(3, 969);
+            this.fileNameLabel.Name = "fileNameLabel";
+            this.fileNameLabel.Size = new System.Drawing.Size(152, 32);
+            this.fileNameLabel.TabIndex = 24;
+            this.fileNameLabel.Text = "File Name:";
+            // 
+            // fileNameTextBox
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.fileNameTextBox, 2);
+            this.fileNameTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileNameTextBox.Location = new System.Drawing.Point(3, 1004);
+            this.fileNameTextBox.Name = "fileNameTextBox";
+            this.fileNameTextBox.ReadOnly = true;
+            this.fileNameTextBox.Size = new System.Drawing.Size(240, 38);
+            this.fileNameTextBox.TabIndex = 23;
             // 
             // mainMenuStrip
             // 
@@ -552,26 +574,6 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.help_About_click);
             // 
-            // fileNameTextBox
-            // 
-            this.tableLayoutPanel1.SetColumnSpan(this.fileNameTextBox, 2);
-            this.fileNameTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fileNameTextBox.Location = new System.Drawing.Point(3, 1004);
-            this.fileNameTextBox.Name = "fileNameTextBox";
-            this.fileNameTextBox.ReadOnly = true;
-            this.fileNameTextBox.Size = new System.Drawing.Size(240, 38);
-            this.fileNameTextBox.TabIndex = 23;
-            // 
-            // fileNameLabel
-            // 
-            this.fileNameLabel.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.fileNameLabel, 2);
-            this.fileNameLabel.Location = new System.Drawing.Point(3, 969);
-            this.fileNameLabel.Name = "fileNameLabel";
-            this.fileNameLabel.Size = new System.Drawing.Size(152, 32);
-            this.fileNameLabel.TabIndex = 24;
-            this.fileNameLabel.Text = "File Name:";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
@@ -598,10 +600,10 @@
             this.splitPanel.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudStepTo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRelax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudSeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumRegions)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRelax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudStepTo)).EndInit();
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.ResumeLayout(false);

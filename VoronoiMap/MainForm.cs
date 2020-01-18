@@ -32,6 +32,7 @@ namespace VoronoiMap {
 
         private Bitmap _bitmap;
         private bool bitMapDrawn = false;
+        private bool doFull = true;
         private MapData mapData;
         private MapData mapDataFromFile;
         private string mapDataFileName;
@@ -68,7 +69,6 @@ namespace VoronoiMap {
             fileNameTextBox.Text = mapDataFileName;
             fileNameTextBox.SelectionStart = fileNameTextBox.Text.Length;
             fileNameTextBox.SelectionLength = 0;
-
         }
 
         private void MainForm_Load(object sender, EventArgs e) {
@@ -148,7 +148,8 @@ namespace VoronoiMap {
         /// <returns>The MapData</returns>
         private MapData mapDataFromRandom() {
 #if traceFlow
-            Console.WriteLine("mapDataFromRandom bitMapDrawn=" + bitMapDrawn);
+            Console.WriteLine("mapDataFromRandom doFull=" + doFull
+                + " bitMapDrawn=" + bitMapDrawn);
 #endif
             List<BasicSite> basicSites = new List<BasicSite>();
             int w = splitPanel.Panel2.ClientSize.Width;
@@ -237,7 +238,7 @@ namespace VoronoiMap {
         /// <param name="g The graphics."></param>
         /// <param name="full Whether to use PaintDiagramFull or
         /// PaintDiagramIncremental."></param>
-        private void PaintDiagram(Graphics g, bool full = true) {
+        private void PaintDiagram(Graphics g) {
             if (_graph == null) {
                 return;
             }
@@ -245,7 +246,7 @@ namespace VoronoiMap {
             // g draws the _bitmap to the Control (Panel2).
             using (Graphics g1 = Graphics.FromImage(_bitmap)) {
                 g1.SmoothingMode = SmoothingMode.AntiAlias;
-                if (full) {
+                if (doFull) {
                     PaintDiagramFull(g1);
                 } else {
                     PaintDiagramIncremental(g1);
@@ -256,7 +257,8 @@ namespace VoronoiMap {
 
         private void PaintDiagramFull(Graphics g) {
 #if traceFlow
-            Console.WriteLine("PaintDiagramFull bitMapDrawn=" + bitMapDrawn);
+            Console.WriteLine("PaintDiagramFull doFull=" + doFull
+                + " bitMapDrawn=" + bitMapDrawn);
 #endif
             if (bitMapDrawn) return;
             if (mapData == null) return;
@@ -278,26 +280,28 @@ namespace VoronoiMap {
             GraphicsPath gp = new GraphicsPath();
             GraphicsPath gp2 = new GraphicsPath();
             GraphicsPath gp3 = new GraphicsPath();
-            // Color the regions
-            foreach (Site site in _graph.Sites) {
-                GraphicsPath gp4 = new GraphicsPath();
-                RectangleF visibleClipBounds = g.VisibleClipBounds;
-                //Console.WriteLine("ClipBounds " + visibleClipBounds);
-                PointF[] points = site.Region(visibleClipBounds).
-                    Where(site1 => site1 != null).
-                    Select(site1 => (PointF)site1).ToArray();
-                if (points.Count() >= 3) {
-                    gp4.AddPolygon(points);
+            if (chkShowSites.Checked) {
+                // Color the regions
+                foreach (Site site in _graph.Sites) {
+                    GraphicsPath gp4 = new GraphicsPath();
+                    RectangleF visibleClipBounds = g.VisibleClipBounds;
+                    //Console.WriteLine("ClipBounds " + visibleClipBounds);
+                    PointF[] points = site.Region(visibleClipBounds).
+                        Where(site1 => site1 != null).
+                        Select(site1 => (PointF)site1).ToArray();
+                    if (points.Count() >= 3) {
+                        gp4.AddPolygon(points);
+                    }
+                    Region region = new Region(gp4);
+                    SolidBrush brush = new SolidBrush(site.Color);
+                    g.FillRegion(brush, region);
+                    brush.Dispose();
                 }
-                Region region = new Region(gp4);
-                SolidBrush brush = new SolidBrush(site.Color);
-                g.FillRegion(brush, region);
-                brush.Dispose();
             }
             // Do the rest
             foreach (Site site in _graph.Sites) {
                 RectangleF r = new RectangleF(site.X - 2, site.Y - 2, 4, 4);
-                if (chkShowSites.Checked && chkShowNumbers.Checked) {
+                if (chkShowNumbers.Checked) {
                     gp.AddEllipse(r);
                     g.DrawString(site.NumString(), _textFont, _siteBrush,
                         site.X, site.Y);
@@ -333,7 +337,8 @@ namespace VoronoiMap {
 
         private void PaintDiagramIncremental(Graphics g) {
 #if traceFlow
-            Console.WriteLine("PaintDiagramIncremental bitMapDrawn=" + bitMapDrawn);
+            Console.WriteLine("PaintDiagramIncremental doFull=" + doFull
+                 + " bitMapDrawn=" + bitMapDrawn);
 #endif
             if (_graph == null) {
                 return;
@@ -431,9 +436,9 @@ namespace VoronoiMap {
                 }
                 g.DrawPath(new Pen(Color.Red), gp);
             }
-            if (chkShowSites.Checked) {
-                GraphicsPath gp = new GraphicsPath();
-                foreach (Site site in _graph.Sites) {
+            foreach (Site site in _graph.Sites) {
+                if (chkShowSites.Checked) {
+                    GraphicsPath gp = new GraphicsPath();
                     RectangleF r = site.New ?
                         new RectangleF(site.X - 4, site.Y - 4, 8, 8)
                         : new RectangleF(site.X - 2, site.Y - 2, 4, 4);
@@ -442,13 +447,15 @@ namespace VoronoiMap {
                     } else {
                         gp.AddEllipse(r);
                     }
-                    if (chkShowNumbers.Checked) {
-                        g.DrawString(site.NumString(), _textFont,
-                            _siteBrush, site.X, site.Y);
-                    }
+                    g.FillPath(_siteBrush, gp);
                 }
-                g.FillPath(_siteBrush, gp);
+                if (chkShowNumbers.Checked) {
+                    g.DrawString(site.NumString(), _textFont,
+                        _siteBrush, site.X, site.Y);
+                }
             }
+            // Draw mapData Bounds
+            g.DrawRectangle(_edgePen, mapData.Left, mapData.Top, mapData.Width - 1, mapData.Height - 1);
             bitMapDrawn = true;
         }
 
@@ -518,9 +525,19 @@ namespace VoronoiMap {
         }
 
         private void btnRegen_Click(object sender, EventArgs e) {
-            //Console.WriteLine("btnRegen_Click");
+            doFull = true;
             bitMapDrawn = false;
             GenerateGraph();
+            splitPanel.Panel2.Invalidate();
+        }
+
+        private void chkShowSites_CheckedChanged(object sender, EventArgs e) {
+            bitMapDrawn = false;
+            splitPanel.Panel2.Invalidate();
+        }
+
+        private void chkShowVertices_CheckedChanged(object sender, EventArgs e) {
+            bitMapDrawn = false;
             splitPanel.Panel2.Invalidate();
         }
 
@@ -529,45 +546,69 @@ namespace VoronoiMap {
             splitPanel.Panel2.Invalidate();
         }
 
+        private void cbCircles_SelectedIndexChanged(object sender, EventArgs e) {
+            bitMapDrawn = false;
+            splitPanel.Panel2.Invalidate();
+        }
+
+        private void chkShowNumbers_Click(object sender, EventArgs e) {
+            bitMapDrawn = false;
+            splitPanel.Panel2.Invalidate();
+        }
+
+
+        private void chkShowBeachLine_CheckChanged(object sender, EventArgs e) {
+            bitMapDrawn = false;
+            splitPanel.Panel2.Invalidate();
+        }
+
         private void btnStepVoronoi_Click(object sender, EventArgs e) {
 #if traceFlow
-            Console.WriteLine("btnStepVoronoi_Click bitMapDrawn=" + bitMapDrawn);
+            Console.WriteLine("btnStepVoronoi_Click doFull=" + doFull
+                + " bitMapDrawn=" + bitMapDrawn);
 #endif
-            using (Graphics graphics = splitPanel.Panel2.CreateGraphics()) {
-                _graph = _voronoi.StepVoronoi();
-                nudStepTo.Value++;
-                bitMapDrawn = false;
-                PaintDiagram(graphics, false);
+            if (_voronoi == null) {
+                Utils.errMsg("Voronoi has not been initialized");
+                return;
             }
+            doFull = false;
+            bitMapDrawn = false;
+            _graph = _voronoi.StepVoronoi();
+            nudStepTo.Value++;
+            splitPanel.Panel2.Invalidate();
         }
 
         private void btnInitialize_Click(object sender, EventArgs e) {
+            doFull = false;
             bitMapDrawn = false;
             InitializeVoronoi();
-            using (Graphics graphics = splitPanel.Panel2.CreateGraphics()) {
-                PaintDiagramIncremental(graphics);
-            }
+            nudStepTo.Value++;
         }
 
         private void btnStepTo_Click(object sender, EventArgs e) {
 #if traceFlow
-            Console.WriteLine("btnStepTo_Click bitMapDrawn=" + bitMapDrawn);
+            Console.WriteLine("btnStepTo_Click doFull=" + doFull
+               + " bitMapDrawn=" + bitMapDrawn);
 #endif
+            doFull = false;
+            bitMapDrawn = false;
             Animate((int)nudStepTo.Value);
         }
 
         private void Animate(int toStep = int.MaxValue) {
 #if traceFlow
-            Console.WriteLine("Animate bitMapDrawn=" + bitMapDrawn
-                + " toStep=" + toStep);
+            Console.WriteLine("Animate doFull=" + doFull
+               + " bitMapDrawn=" + bitMapDrawn
+               + " toStep=" + toStep);
 #endif
             Cursor = Cursors.WaitCursor;
+            doFull = false;
             int lastStep = _voronoi.StepNumber;
             using (Graphics g = splitPanel.Panel2.CreateGraphics()) {
                 while (_voronoi.StepNumber < toStep) {
                     _voronoi.StepVoronoi();
                     bitMapDrawn = false;
-                    PaintDiagram(g, false);
+                    PaintDiagram(g);
                     Thread.Sleep(10);
                     Application.DoEvents();
                     if (lastStep == _voronoi.StepNumber) {
@@ -585,8 +626,10 @@ namespace VoronoiMap {
 
         private void btnAnimate_Click(object sender, EventArgs e) {
 #if traceFlow
-            Console.WriteLine("btnAnimate_Click bitMapDrawn=" + bitMapDrawn);
+            Console.WriteLine("btnAnimate_Click doFull=" + doFull
+               + " bitMapDrawn=" + bitMapDrawn);
 #endif
+            doFull = false;
             bitMapDrawn = false;
             if (_voronoi == null) {
                 InitializeVoronoi();
@@ -628,10 +671,6 @@ namespace VoronoiMap {
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e) {
             Graphics g = e.Graphics;
             PaintDiagram(g);
-        }
-
-        private void cbCircles_SelectedIndexChanged(object sender, EventArgs e) {
-            splitPanel.Panel2.Invalidate();
         }
 
         private void file_OpenInput_click(object sender, EventArgs e) {
