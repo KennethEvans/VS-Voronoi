@@ -6,6 +6,10 @@ using KEUtils;
 using log4net;
 
 namespace VoronoiMap {
+    /// <summary>
+    /// Class that handles a complete VoronoiGraph, including geometry, Sites,
+    /// Vertices, Segments, Triangles, Edges, and SweepLine.
+    /// </summary>
     public class VoronoiGraph {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public bool Debug { get; set; }
@@ -125,8 +129,8 @@ namespace VoronoiMap {
                         break;
                     }
                 }
-                for (var lbnd = edgeList.LeftEnd.Right; lbnd != edgeList.RightEnd; lbnd = lbnd.Right) {
-                    var e = lbnd.Edge;
+                for (HalfEdge lbnd = edgeList.LeftEnd.Right; lbnd != edgeList.RightEnd; lbnd = lbnd.Right) {
+                    Edge e = lbnd.Edge;
                     graph.PlotEndpoint(e);
                 }
             } catch (Exception ex) {
@@ -204,11 +208,11 @@ namespace VoronoiMap {
 
 
         /// <summary>
-        /// Somewhat redundant line clipping routine
+        /// Somewhat redundant line clipping routine.
         /// </summary>
         /// <param name="e"></param>
         private void ClipLine(Edge e) {
-            var clipped = e.GetClippedEnds(new RectangleF(0, 0, Width, Height));
+            var clipped = e.GetClippedEnds(new RectangleF(X, Y, Width, Height));
             if (clipped != null) {
                 var site1 = new Site(clipped.Item1);
                 var site2 = new Site(clipped.Item2);

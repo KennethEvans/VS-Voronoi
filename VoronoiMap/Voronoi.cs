@@ -4,8 +4,9 @@ using System.Drawing;
 
 namespace VoronoiMap {
     /// <summary>
-    /// Adapted from http://philogb.github.io/blog/2010/02/12/voronoi-tessellation/
-    /// Also uses portions from https://github.com/SirAnthony/cppdelaunay
+    /// Class that handles stepping.
+    /// Adapted from http://philogb.github.io/blog/2010/02/12/voronoi-tessellation/.
+    /// Also uses portions from https://github.com/SirAnthony/cppdelaunay.
     /// </summary>
     public class Voronoi {
         private readonly VoronoiGraph _graph;

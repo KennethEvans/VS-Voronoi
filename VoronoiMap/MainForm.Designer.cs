@@ -26,7 +26,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitPanel = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label2 = new System.Windows.Forms.Label();
+            this.seedLabel = new System.Windows.Forms.Label();
             this.btnAnimate = new System.Windows.Forms.Button();
             this.btnStepVoronoi = new System.Windows.Forms.Button();
             this.btnStepTo = new System.Windows.Forms.Button();
@@ -34,19 +34,19 @@
             this.nudRelax = new System.Windows.Forms.NumericUpDown();
             this.btnInitialize = new System.Windows.Forms.Button();
             this.nudSeed = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.numRegionLabel = new System.Windows.Forms.Label();
             this.nudNumRegions = new System.Windows.Forms.NumericUpDown();
-            this.chDebug = new System.Windows.Forms.CheckBox();
+            this.chkDebug = new System.Windows.Forms.CheckBox();
             this.btnRegen = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
+            this.relaxLabel = new System.Windows.Forms.Label();
             this.chkShowSites = new System.Windows.Forms.CheckBox();
             this.chkShowVertices = new System.Windows.Forms.CheckBox();
             this.chkShowEdges = new System.Windows.Forms.CheckBox();
             this.chkUseFile = new System.Windows.Forms.CheckBox();
             this.chkShowNumbers = new System.Windows.Forms.CheckBox();
             this.cbCircles = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.circleLabel = new System.Windows.Forms.Label();
+            this.stepLabel = new System.Windows.Forms.Label();
             this.chkBeachline = new System.Windows.Forms.CheckBox();
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,9 +54,15 @@
             this.writeMapDataFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.indentedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.notIndentedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.resetSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fileNameTextBox = new System.Windows.Forms.TextBox();
+            this.fileNameLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitPanel)).BeginInit();
             this.splitPanel.Panel1.SuspendLayout();
             this.splitPanel.SuspendLayout();
@@ -74,7 +80,7 @@
             this.splitPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitPanel.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitPanel.IsSplitterFixed = true;
-            this.splitPanel.Location = new System.Drawing.Point(10, 62);
+            this.splitPanel.Location = new System.Drawing.Point(10, 59);
             this.splitPanel.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.splitPanel.Name = "splitPanel";
             // 
@@ -88,7 +94,7 @@
             // 
             this.splitPanel.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitPanel.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
-            this.splitPanel.Size = new System.Drawing.Size(1448, 978);
+            this.splitPanel.Size = new System.Drawing.Size(1448, 1070);
             this.splitPanel.SplitterDistance = 250;
             this.splitPanel.SplitterWidth = 10;
             this.splitPanel.TabIndex = 0;
@@ -98,33 +104,35 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnAnimate, 1, 15);
-            this.tableLayoutPanel1.Controls.Add(this.btnStepVoronoi, 0, 13);
-            this.tableLayoutPanel1.Controls.Add(this.btnStepTo, 1, 13);
-            this.tableLayoutPanel1.Controls.Add(this.nudStepTo, 1, 14);
-            this.tableLayoutPanel1.Controls.Add(this.nudRelax, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.btnInitialize, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.seedLabel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.nudSeed, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.numRegionLabel, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.nudNumRegions, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.chDebug, 1, 9);
-            this.tableLayoutPanel1.Controls.Add(this.btnRegen, 1, 12);
-            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.relaxLabel, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.nudRelax, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.chkShowSites, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.chkShowVertices, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.chkShowEdges, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.chkUseFile, 1, 7);
             this.tableLayoutPanel1.Controls.Add(this.chkShowNumbers, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.chkUseFile, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.circleLabel, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.cbCircles, 1, 8);
-            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.chkDebug, 1, 9);
             this.tableLayoutPanel1.Controls.Add(this.chkBeachline, 1, 10);
+            this.tableLayoutPanel1.Controls.Add(this.btnInitialize, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.btnRegen, 1, 12);
+            this.tableLayoutPanel1.Controls.Add(this.btnStepVoronoi, 0, 13);
+            this.tableLayoutPanel1.Controls.Add(this.btnStepTo, 1, 13);
+            this.tableLayoutPanel1.Controls.Add(this.stepLabel, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.nudStepTo, 1, 14);
+            this.tableLayoutPanel1.Controls.Add(this.btnAnimate, 1, 15);
+            this.tableLayoutPanel1.Controls.Add(this.fileNameLabel, 0, 16);
+            this.tableLayoutPanel1.Controls.Add(this.fileNameTextBox, 0, 17);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 14;
+            this.tableLayoutPanel1.RowCount = 15;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -141,20 +149,22 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(246, 974);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(246, 1066);
             this.tableLayoutPanel1.TabIndex = 19;
             // 
-            // label2
+            // seedLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(8, 0);
-            this.label2.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(107, 52);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Seed:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.seedLabel.AutoSize = true;
+            this.seedLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.seedLabel.Location = new System.Drawing.Point(8, 0);
+            this.seedLabel.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.seedLabel.Name = "seedLabel";
+            this.seedLabel.Size = new System.Drawing.Size(107, 52);
+            this.seedLabel.TabIndex = 13;
+            this.seedLabel.Text = "Seed:";
+            this.seedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnAnimate
             // 
@@ -245,17 +255,17 @@
             this.nudSeed.Size = new System.Drawing.Size(107, 38);
             this.nudSeed.TabIndex = 6;
             // 
-            // label1
+            // numRegionLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(8, 52);
-            this.label1.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(107, 128);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Number of Regions:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.numRegionLabel.AutoSize = true;
+            this.numRegionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numRegionLabel.Location = new System.Drawing.Point(8, 52);
+            this.numRegionLabel.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.numRegionLabel.Name = "numRegionLabel";
+            this.numRegionLabel.Size = new System.Drawing.Size(107, 128);
+            this.numRegionLabel.TabIndex = 2;
+            this.numRegionLabel.Text = "Number of Regions:";
+            this.numRegionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // nudNumRegions
             // 
@@ -281,17 +291,17 @@
             0,
             0});
             // 
-            // chDebug
+            // chkDebug
             // 
-            this.chDebug.AutoSize = true;
-            this.chDebug.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chDebug.Location = new System.Drawing.Point(131, 617);
-            this.chDebug.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.chDebug.Name = "chDebug";
-            this.chDebug.Size = new System.Drawing.Size(107, 36);
-            this.chDebug.TabIndex = 12;
-            this.chDebug.Text = "Debug?";
-            this.chDebug.UseVisualStyleBackColor = true;
+            this.chkDebug.AutoSize = true;
+            this.chkDebug.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkDebug.Location = new System.Drawing.Point(131, 617);
+            this.chkDebug.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.chkDebug.Name = "chkDebug";
+            this.chkDebug.Size = new System.Drawing.Size(107, 36);
+            this.chkDebug.TabIndex = 12;
+            this.chkDebug.Text = "Debug?";
+            this.chkDebug.UseVisualStyleBackColor = true;
             // 
             // btnRegen
             // 
@@ -305,17 +315,17 @@
             this.btnRegen.UseVisualStyleBackColor = true;
             this.btnRegen.Click += new System.EventHandler(this.btnRegen_Click);
             // 
-            // label4
+            // relaxLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(8, 180);
-            this.label4.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(107, 52);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "Relax:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.relaxLabel.AutoSize = true;
+            this.relaxLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.relaxLabel.Location = new System.Drawing.Point(8, 180);
+            this.relaxLabel.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.relaxLabel.Name = "relaxLabel";
+            this.relaxLabel.Size = new System.Drawing.Size(107, 52);
+            this.relaxLabel.TabIndex = 17;
+            this.relaxLabel.Text = "Relax:";
+            this.relaxLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // chkShowSites
             // 
@@ -404,29 +414,29 @@
             this.cbCircles.TabIndex = 15;
             this.cbCircles.SelectedIndexChanged += new System.EventHandler(this.cbCircles_SelectedIndexChanged);
             // 
-            // label5
+            // circleLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(8, 482);
-            this.label5.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 128);
-            this.label5.TabIndex = 19;
-            this.label5.Text = "Show Circle Events:";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.circleLabel.AutoSize = true;
+            this.circleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.circleLabel.Location = new System.Drawing.Point(8, 482);
+            this.circleLabel.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.circleLabel.Name = "circleLabel";
+            this.circleLabel.Size = new System.Drawing.Size(107, 128);
+            this.circleLabel.TabIndex = 19;
+            this.circleLabel.Text = "Show Circle Events:";
+            this.circleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label3
+            // stepLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(8, 848);
-            this.label3.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(107, 52);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Step:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.stepLabel.AutoSize = true;
+            this.stepLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stepLabel.Location = new System.Drawing.Point(8, 848);
+            this.stepLabel.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.stepLabel.Name = "stepLabel";
+            this.stepLabel.Size = new System.Drawing.Size(107, 52);
+            this.stepLabel.TabIndex = 16;
+            this.stepLabel.Text = "Step:";
+            this.stepLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // chkBeachline
             // 
@@ -450,7 +460,7 @@
             this.helpToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(10, 10);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1448, 52);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1448, 49);
             this.mainMenuStrip.TabIndex = 1;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
@@ -459,9 +469,13 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openInputFileToolStripMenuItem,
             this.writeMapDataFileToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.toolStripSeparator2,
+            this.resetSettingsToolStripMenuItem,
+            this.toolStripSeparator3,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 48);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 45);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openInputFileToolStripMenuItem
@@ -483,16 +497,38 @@
             // indentedToolStripMenuItem
             // 
             this.indentedToolStripMenuItem.Name = "indentedToolStripMenuItem";
-            this.indentedToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
+            this.indentedToolStripMenuItem.Size = new System.Drawing.Size(310, 46);
             this.indentedToolStripMenuItem.Text = "Indented";
             this.indentedToolStripMenuItem.Click += new System.EventHandler(this.file_SaveMapDataFileIndented_click);
             // 
             // notIndentedToolStripMenuItem
             // 
             this.notIndentedToolStripMenuItem.Name = "notIndentedToolStripMenuItem";
-            this.notIndentedToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
+            this.notIndentedToolStripMenuItem.Size = new System.Drawing.Size(310, 46);
             this.notIndentedToolStripMenuItem.Text = "Not Indented";
             this.notIndentedToolStripMenuItem.Click += new System.EventHandler(this.file_SaveMapDataFileNotIndented_click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(405, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(405, 6);
+            // 
+            // resetSettingsToolStripMenuItem
+            // 
+            this.resetSettingsToolStripMenuItem.Name = "resetSettingsToolStripMenuItem";
+            this.resetSettingsToolStripMenuItem.Size = new System.Drawing.Size(408, 46);
+            this.resetSettingsToolStripMenuItem.Text = "Reset Settings";
+            this.resetSettingsToolStripMenuItem.Click += new System.EventHandler(this.file_ResetSettings_click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(405, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -506,7 +542,7 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 48);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 45);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -516,12 +552,32 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.help_About_click);
             // 
+            // fileNameTextBox
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.fileNameTextBox, 2);
+            this.fileNameTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fileNameTextBox.Location = new System.Drawing.Point(3, 1004);
+            this.fileNameTextBox.Name = "fileNameTextBox";
+            this.fileNameTextBox.ReadOnly = true;
+            this.fileNameTextBox.Size = new System.Drawing.Size(240, 38);
+            this.fileNameTextBox.TabIndex = 23;
+            // 
+            // fileNameLabel
+            // 
+            this.fileNameLabel.AutoSize = true;
+            this.tableLayoutPanel1.SetColumnSpan(this.fileNameLabel, 2);
+            this.fileNameLabel.Location = new System.Drawing.Point(3, 969);
+            this.fileNameLabel.Name = "fileNameLabel";
+            this.fileNameLabel.Size = new System.Drawing.Size(152, 32);
+            this.fileNameLabel.TabIndex = 24;
+            this.fileNameLabel.Text = "File Name:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1468, 1050);
+            this.ClientSize = new System.Drawing.Size(1468, 1139);
             this.Controls.Add(this.splitPanel);
             this.Controls.Add(this.mainMenuStrip);
             this.DoubleBuffered = true;
@@ -533,6 +589,7 @@
             this.Padding = new System.Windows.Forms.Padding(10);
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "Voronoi";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
@@ -558,7 +615,7 @@
         private System.Windows.Forms.CheckBox chkShowEdges;
         private System.Windows.Forms.CheckBox chkShowVertices;
         private System.Windows.Forms.CheckBox chkShowSites;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label numRegionLabel;
         private System.Windows.Forms.NumericUpDown nudNumRegions;
         private System.Windows.Forms.Button btnRegen;
         private System.Windows.Forms.NumericUpDown nudSeed;
@@ -566,15 +623,15 @@
         private System.Windows.Forms.Button btnInitialize;
         private System.Windows.Forms.Button btnStepTo;
         private System.Windows.Forms.NumericUpDown nudStepTo;
-        private System.Windows.Forms.CheckBox chDebug;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox chkDebug;
+        private System.Windows.Forms.Label seedLabel;
         private System.Windows.Forms.Button btnAnimate;
         private System.Windows.Forms.ComboBox cbCircles;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label stepLabel;
         private System.Windows.Forms.NumericUpDown nudRelax;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label relaxLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label circleLabel;
         private System.Windows.Forms.CheckBox chkBeachline;
         private System.Windows.Forms.MenuStrip mainMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -587,5 +644,11 @@
         private System.Windows.Forms.ToolStripMenuItem writeMapDataFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem indentedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem notIndentedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem resetSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.TextBox fileNameTextBox;
+        private System.Windows.Forms.Label fileNameLabel;
     }
 }

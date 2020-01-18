@@ -14,8 +14,11 @@ namespace VoronoiMap {
         public float Bottom { get; set; }
         public List<BasicSite> SiteList { get; set; } = new List<BasicSite>();
 
+        [JsonIgnore]
         public float Width { get { return (Right - Left); } }
+        [JsonIgnore]
         public float Height { get { return (Bottom - Top); } }
+        [JsonIgnore]
         public RectangleF Bounds
         {
             get { return new RectangleF(Left, Top, Width, Height); }
@@ -52,6 +55,12 @@ namespace VoronoiMap {
             }
         }
 
+        public override string ToString() {
+            return String.Format("{{Left={0},Right={1},Top={2},Bottom={3}," +
+                "Width={4},Height={5},nSites={6}}}",
+                Left, Right, Top, Bottom, Width, Height, SiteList.Count);
+        }
+          
         public void saveMapDataAsJson(string fileName, bool indented = false) {
             string json;
             if (indented) {
@@ -60,17 +69,6 @@ namespace VoronoiMap {
                 json = JsonConvert.SerializeObject(this);
             }
             File.WriteAllText(fileName, json);
-        }
-
-        public static MapData openFile() {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Json Files|*.json";
-            dlg.Title = "Select a Map Data File";
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-                MapData mapData = new MapData(dlg.FileName);
-                return mapData;
-            }
-            return null;
         }
 
         public void saveFile(bool indented = false) {

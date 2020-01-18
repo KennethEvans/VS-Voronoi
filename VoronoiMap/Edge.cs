@@ -70,7 +70,7 @@ namespace VoronoiMap {
         }
 
         public void ClipVertices(RectangleF bounds) {
-            var clipped = GetClippedEnds(bounds);
+            Tuple<PointF, PointF> clipped = GetClippedEnds(bounds);
             if (clipped == null) {
                 return;
             }
@@ -79,11 +79,12 @@ namespace VoronoiMap {
         }
 
         public Tuple<PointF, PointF> GetClippedEnds(RectangleF bounds) {
+            Console.WriteLine("GetClippedEnds bounds=" + bounds);
             Site vertex0, vertex1;
-            var xmin = bounds.X;
-            var ymin = bounds.Y;
-            var xmax = bounds.Right;
-            var ymax = bounds.Bottom;
+            float xmin = bounds.X;
+            float ymin = bounds.Y;
+            float xmax = bounds.Right;
+            float ymax = bounds.Bottom;
             float x0, x1, y0, y1;
             if (Math.Abs(A - 1.0) < Double.Epsilon && B >= 0.0) {
                 vertex0 = RightVertex;
@@ -157,7 +158,7 @@ namespace VoronoiMap {
                     x1 = (C - y1)/A;
                 }
             }
-            var clipped = CohenSutherland.ClipSegment(bounds, new PointF(x0, y0), new PointF(x1, y1));
+            Tuple<PointF, PointF> clipped = CohenSutherland.ClipSegment(bounds, new PointF(x0, y0), new PointF(x1, y1));
             //Console.WriteLine("cl {0} {1} {2} {3}", x0, y0, x1, y1);
 
             return (vertex0 == LeftVertex) ? 

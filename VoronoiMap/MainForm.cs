@@ -1,4 +1,4 @@
-﻿#undef dumpSites
+﻿#define dumpSites
 #define traceFlow
 
 using System;
@@ -34,9 +34,12 @@ namespace VoronoiMap {
         private bool bitMapDrawn = false;
         private MapData mapData;
         private MapData mapDataFromFile;
+        private string mapDataFileName;
 
         public MainForm() {
             InitializeComponent();
+            loadSettings();
+
             _sweepPen = new Pen(Color.Magenta);
             _circlePen = new Pen(Color.Lime);
             _newCirclePen = new Pen(Color.Gold) { Width = 2 };
@@ -49,14 +52,50 @@ namespace VoronoiMap {
             _newSiteBrush = new SolidBrush(Color.Black);
         }
 
+        private void loadSettings() {
+            nudSeed.Value = Properties.Settings.Default.Seed;
+            nudNumRegions.Value = Properties.Settings.Default.NumRegions;
+            nudRelax.Value = Properties.Settings.Default.Relax;
+            chkShowSites.Checked = Properties.Settings.Default.ShowSites;
+            chkShowVertices.Checked = Properties.Settings.Default.ShowVertices;
+            chkShowEdges.Checked = Properties.Settings.Default.ShowEdges;
+            chkUseFile.Checked = Properties.Settings.Default.UseFile;
+            chkDebug.Checked = Properties.Settings.Default.Debug;
+            chkBeachline.Checked = Properties.Settings.Default.ShowBeachLine;
+            chkShowSites.Checked = Properties.Settings.Default.ShowSites;
+            cbCircles.SelectedIndex = Properties.Settings.Default.ShowCircleEvents;
+            mapDataFileName = Properties.Settings.Default.LastFileName;
+            fileNameTextBox.Text = mapDataFileName;
+            fileNameTextBox.SelectionStart = fileNameTextBox.Text.Length;
+            fileNameTextBox.SelectionLength = 0;
+
+        }
+
         private void MainForm_Load(object sender, EventArgs e) {
             //GenerateGraph();
-            InitializeVoronoi();
+            //InitializeVoronoi();
             _bitmap = new Bitmap(splitPanel.Panel2.ClientSize.Width,
                 splitPanel.Panel2.ClientSize.Height);
             bitMapDrawn = false;
-            cbCircles.SelectedIndex = 0;
         }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e) {
+            Properties.Settings.Default.Seed = nudSeed.Value;
+            Properties.Settings.Default.NumRegions = nudNumRegions.Value;
+            Properties.Settings.Default.Relax = nudRelax.Value;
+            Properties.Settings.Default.ShowSites = chkShowSites.Checked;
+            Properties.Settings.Default.ShowVertices = chkShowVertices.Checked;
+            Properties.Settings.Default.ShowEdges = chkShowEdges.Checked;
+            Properties.Settings.Default.UseFile = chkUseFile.Checked;
+            Properties.Settings.Default.Debug = chkDebug.Checked;
+            Properties.Settings.Default.ShowBeachLine = chkBeachline.Checked;
+            Properties.Settings.Default.ShowSites = chkShowSites.Checked;
+            Properties.Settings.Default.ShowCircleEvents = cbCircles.SelectedIndex;
+            Properties.Settings.Default.LastFileName = mapDataFileName;
+
+            Properties.Settings.Default.Save();
+        }
+
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e) {
             _circlePen.Dispose();
             _edgePen.Dispose();
@@ -72,13 +111,44 @@ namespace VoronoiMap {
         }
 
         /// <summary>
+        /// Gets the appropriate MapData from a file or from random depending 
+        /// on the Use File checkbox.
+        /// </summary>
+        /// <returns>The MapData or null on failure.</returns>
+        private MapData getMapData() {
+            if (chkUseFile.Checked) {
+                if (mapDataFromFile == null) {
+                    if (String.IsNullOrEmpty(mapDataFileName)) {
+                        Utils.errMsg("Use File is checked but there is no map " +
+                            "data available from a file");
+                        return null;
+                    } else {
+                        try {
+                            mapDataFromFile = new MapData(mapDataFileName);
+                            fileNameTextBox.Text = mapDataFileName;
+                            fileNameTextBox.SelectionStart = fileNameTextBox.Text.Length;
+                            fileNameTextBox.SelectionLength = 0;
+                        } catch (Exception ex) {
+                            Utils.excMsg("Unable to load " + mapDataFileName, ex);
+                            return null;
+                        }
+                    }
+                }
+                mapData = mapDataFromFile;
+            } else {
+                mapData = mapDataFromRandom();
+            }
+            return mapData;
+        }
+
+        /// <summary>
         /// Generates a MapData from random values with
         /// Left=0, Right = Panel2 width, Top = 0 Bottom = Panel2 Height.
         /// </summary>
         /// <returns>The MapData</returns>
         private MapData mapDataFromRandom() {
 #if traceFlow
-            Console.WriteLine("mapDataFromRandom bitMapDrawn =" + bitMapDrawn);
+            Console.WriteLine("mapDataFromRandom bitMapDrawn=" + bitMapDrawn);
 #endif
             List<BasicSite> basicSites = new List<BasicSite>();
             int w = splitPanel.Panel2.ClientSize.Width;
@@ -103,28 +173,23 @@ namespace VoronoiMap {
         /// </summary>
         private void GenerateGraph() {
 #if traceFlow
-            Console.WriteLine("GenerateGraph bitMapDrawn =" + bitMapDrawn
+            Console.WriteLine("GenerateGraph bitMapDrawn=" + bitMapDrawn
                 + " chkUseFile.Checked=" + chkUseFile.Checked);
 #endif
             long start = Stopwatch.GetTimestamp();
             List<BasicSite> basicSites = new List<BasicSite>();
-            if (chkUseFile.Checked) {
-                if (mapDataFromFile == null) {
-                    Utils.errMsg("There is no map data from a file");
-                    return;
-                }
-                mapData = mapDataFromFile;
-            } else {
-                mapData = mapDataFromRandom();
+            mapData = getMapData();
+            if (mapData == null) {
+                return;
             }
             if (nudRelax.Value > 0) {
                 basicSites = RelaxPoints((int)nudRelax.Value, mapData.SiteList);
                 mapData.SiteList = basicSites;
             }
-            _graph = 
-            VoronoiGraph.ComputeVoronoiGraph(mapData.SiteList, 
-            mapData.Right, mapData.Top, mapData.Width, mapData.Height,
-            chDebug.Checked);
+            _graph =
+            VoronoiGraph.ComputeVoronoiGraph(mapData.SiteList,
+            mapData.Left, mapData.Top, mapData.Width, mapData.Height,
+            chkDebug.Checked);
 #if dumpSites
             dumpSites();
 #endif            
@@ -137,19 +202,18 @@ namespace VoronoiMap {
         /// Calculates mapData and _graph.
         /// </summary>
         private void InitializeVoronoi() {
+#if traceFlow
+            Console.WriteLine("InitializeVoronoi bitMapDrawn=" + bitMapDrawn
+                + " chkUseFile.Checked=" + chkUseFile.Checked);
+#endif
             _sitesToIgnore = new HashSet<Site>();
-            Console.Clear();
+            //Console.Clear();
             nudStepTo.Value = 0;
             Edge.EdgeCount = 0;
             List<BasicSite> basicSites = new List<BasicSite>();
-            if (chkUseFile.Checked) {
-                if (mapDataFromFile == null) {
-                    Utils.errMsg("There is no map data from a file");
-                    return;
-                }
-                mapData = mapDataFromFile;
-            } else {
-                mapData = mapDataFromRandom();
+            mapData = getMapData();
+            if (mapData == null) {
+                return;
             }
             if (nudRelax.Value > 0) {
                 basicSites = RelaxPoints((int)nudRelax.Value, mapData.SiteList);
@@ -159,8 +223,8 @@ namespace VoronoiMap {
                 basicSites = RelaxPoints((int)nudRelax.Value, mapData.SiteList);
                 mapData.SiteList = basicSites;
             }
-            _voronoi = new Voronoi(mapData.SiteList, mapData.Left, 
-                mapData.Top, mapData.Width, mapData.Height, chDebug.Checked);
+            _voronoi = new Voronoi(mapData.SiteList, mapData.Left,
+                mapData.Top, mapData.Width, mapData.Height, chkDebug.Checked);
             _graph = _voronoi.Initialize();
         }
 
@@ -175,7 +239,6 @@ namespace VoronoiMap {
         /// PaintDiagramIncremental."></param>
         private void PaintDiagram(Graphics g, bool full = true) {
             if (_graph == null) {
-                Utils.errMsg("Graph is not defined");
                 return;
             }
             // g1 is used to paint the _bitmap.
@@ -193,9 +256,10 @@ namespace VoronoiMap {
 
         private void PaintDiagramFull(Graphics g) {
 #if traceFlow
-            Console.WriteLine("PaintDiagramFull bitMapDrawn =" + bitMapDrawn);
+            Console.WriteLine("PaintDiagramFull bitMapDrawn=" + bitMapDrawn);
 #endif
             if (bitMapDrawn) return;
+            if (mapData == null) return;
             g.Clear(BackColor);
             Matrix m = MapData.getMatrixToFitRectInRect(mapData.Bounds,
                 g.VisibleClipBounds);
@@ -259,6 +323,9 @@ namespace VoronoiMap {
             g.DrawPath(_circlePen, gp2);
             g.DrawPath(_edgePen, gp3);
             g.FillPath(_siteBrush, gp);
+            // Draw mapData Bounds
+            g.DrawRectangle(_edgePen, mapData.Left, mapData.Top, mapData.Width - 1, mapData.Height - 1);
+
             bitMapDrawn = true;
         }
 
@@ -266,14 +333,17 @@ namespace VoronoiMap {
 
         private void PaintDiagramIncremental(Graphics g) {
 #if traceFlow
-            Console.WriteLine("PaintDiagramIncremental bitMapDrawn =" + bitMapDrawn);
+            Console.WriteLine("PaintDiagramIncremental bitMapDrawn=" + bitMapDrawn);
 #endif
             if (_graph == null) {
-                Utils.errMsg("PaintDiagramIncremental: Graph is not defined");
                 return;
             }
             if (bitMapDrawn) return;
+            if (mapData == null) return;
             g.Clear(BackColor);
+            Matrix m = MapData.getMatrixToFitRectInRect(mapData.Bounds,
+                g.VisibleClipBounds);
+            g.Transform = m;
             g.DrawLine(_sweepPen, splitPanel.Panel2.ClientRectangle.Left,
                 _graph.SweepLine, splitPanel.Panel2.ClientRectangle.Right,
                 _graph.SweepLine);
@@ -424,6 +494,7 @@ namespace VoronoiMap {
 
         public void dumpSites() {
             Console.WriteLine("Site Dump");
+            Console.WriteLine("mapData: " + mapData);
             GraphicsUnit units = GraphicsUnit.Pixel;
             RectangleF visibleClipBounds = _bitmap.GetBounds(ref units);
             Console.WriteLine("visibleClipBounds=" + visibleClipBounds);
@@ -460,7 +531,7 @@ namespace VoronoiMap {
 
         private void btnStepVoronoi_Click(object sender, EventArgs e) {
 #if traceFlow
-            Console.WriteLine("btnStepVoronoi_Click bitMapDrawn =" + bitMapDrawn);
+            Console.WriteLine("btnStepVoronoi_Click bitMapDrawn=" + bitMapDrawn);
 #endif
             using (Graphics graphics = splitPanel.Panel2.CreateGraphics()) {
                 _graph = _voronoi.StepVoronoi();
@@ -480,14 +551,14 @@ namespace VoronoiMap {
 
         private void btnStepTo_Click(object sender, EventArgs e) {
 #if traceFlow
-            Console.WriteLine("btnStepTo_Click bitMapDrawn =" + bitMapDrawn);
+            Console.WriteLine("btnStepTo_Click bitMapDrawn=" + bitMapDrawn);
 #endif
             Animate((int)nudStepTo.Value);
         }
 
         private void Animate(int toStep = int.MaxValue) {
 #if traceFlow
-            Console.WriteLine("Animate bitMapDrawn =" + bitMapDrawn
+            Console.WriteLine("Animate bitMapDrawn=" + bitMapDrawn
                 + " toStep=" + toStep);
 #endif
             Cursor = Cursors.WaitCursor;
@@ -514,7 +585,7 @@ namespace VoronoiMap {
 
         private void btnAnimate_Click(object sender, EventArgs e) {
 #if traceFlow
-            Console.WriteLine("btnAnimate_Click bitMapDrawn =" + bitMapDrawn);
+            Console.WriteLine("btnAnimate_Click bitMapDrawn=" + bitMapDrawn);
 #endif
             bitMapDrawn = false;
             if (_voronoi == null) {
@@ -552,7 +623,6 @@ namespace VoronoiMap {
             _bitmap = new Bitmap(splitPanel.Panel2.ClientSize.Width,
                 splitPanel.Panel2.ClientSize.Height);
             bitMapDrawn = false;
-            btnRegen_Click(null, null);
         }
 
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e) {
@@ -565,9 +635,18 @@ namespace VoronoiMap {
         }
 
         private void file_OpenInput_click(object sender, EventArgs e) {
-            mapDataFromFile = MapData.openFile();
-            if (mapDataFromFile == null) {
-                Utils.warnMsg("Failed to open Map Data file");
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Json Files|*.json";
+            dlg.Title = "Select a Map Data File";
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+                mapDataFileName = dlg.FileName;
+                mapDataFromFile = new MapData(dlg.FileName);
+                fileNameTextBox.Text = mapDataFileName;
+                fileNameTextBox.SelectionStart = fileNameTextBox.Text.Length;
+                fileNameTextBox.SelectionLength = 0;
+                if (mapDataFromFile == null) {
+                    Utils.warnMsg("Failed to open Map Data file");
+                }
             }
         }
 
@@ -596,6 +675,11 @@ namespace VoronoiMap {
                 return;
             }
             mapData.saveFile(false);
+        }
+
+        private void file_ResetSettings_click(object sender, EventArgs e) {
+            Properties.Settings.Default.Reset();
+            loadSettings();
         }
     }
 }
