@@ -79,7 +79,6 @@ namespace VoronoiMap {
         }
 
         public Tuple<PointF, PointF> GetClippedEnds(RectangleF bounds) {
-            Console.WriteLine("GetClippedEnds bounds=" + bounds);
             Site vertex0, vertex1;
             float xmin = bounds.X;
             float ymin = bounds.Y;

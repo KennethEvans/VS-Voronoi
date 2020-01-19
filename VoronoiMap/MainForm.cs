@@ -1,4 +1,4 @@
-﻿#define dumpSites
+﻿#undef dumpSites
 #define traceFlow
 
 using System;
@@ -29,21 +29,24 @@ namespace VoronoiMap {
         private readonly SolidBrush _newSiteBrush;
 
         private readonly Font _textFont = new System.Drawing.Font("Arial", 10);
+        private HashSet<Site> _sitesToIgnore = new HashSet<Site>();
 
         private Bitmap _bitmap;
         private bool bitMapDrawn = false;
         private bool doFull = true;
+        private bool paintError = false;
         private MapData mapData;
         private MapData mapDataFromFile;
         private string mapDataFileName;
+        private CreateFileFromImageDialog createFileFromImageDlg;
 
         public MainForm() {
             InitializeComponent();
             loadSettings();
 
             _sweepPen = new Pen(Color.Magenta);
-            _circlePen = new Pen(Color.Lime);
-            _newCirclePen = new Pen(Color.Gold) { Width = 2 };
+            _circlePen = new Pen(Color.Green);
+            _newCirclePen = new Pen(Color.LightGreen) { Width = 2 };
             _edgePen = new Pen(Color.Black);
             _newEdgePen = new Pen(Color.White) { Width = 2 };
             _beachPen = new Pen(Color.Orange);
@@ -60,6 +63,7 @@ namespace VoronoiMap {
             chkShowSites.Checked = Properties.Settings.Default.ShowSites;
             chkShowVertices.Checked = Properties.Settings.Default.ShowVertices;
             chkShowEdges.Checked = Properties.Settings.Default.ShowEdges;
+            chkShowNumbers.Checked = Properties.Settings.Default.ShowNumbers;
             chkUseFile.Checked = Properties.Settings.Default.UseFile;
             chkDebug.Checked = Properties.Settings.Default.Debug;
             chkBeachline.Checked = Properties.Settings.Default.ShowBeachLine;
@@ -86,6 +90,7 @@ namespace VoronoiMap {
             Properties.Settings.Default.ShowSites = chkShowSites.Checked;
             Properties.Settings.Default.ShowVertices = chkShowVertices.Checked;
             Properties.Settings.Default.ShowEdges = chkShowEdges.Checked;
+            Properties.Settings.Default.ShowNumbers = chkShowNumbers.Checked;
             Properties.Settings.Default.UseFile = chkUseFile.Checked;
             Properties.Settings.Default.Debug = chkDebug.Checked;
             Properties.Settings.Default.ShowBeachLine = chkBeachline.Checked;
@@ -262,78 +267,81 @@ namespace VoronoiMap {
 #endif
             if (bitMapDrawn) return;
             if (mapData == null) return;
-            g.Clear(BackColor);
-            Matrix m = MapData.getMatrixToFitRectInRect(mapData.Bounds,
-                g.VisibleClipBounds);
-            g.Transform = m;
-            // DEBUG
-            Console.WriteLine("PaintDiagramFull Matrix:");
-            Console.WriteLine("  mapData.Bounds=" + mapData.Bounds);
-            Console.WriteLine("  g.VisibleClipBounds=" + g.VisibleClipBounds);
-            string stringVal = "  ";
-            foreach (float val in m.Elements) {
-                stringVal += " " + val;
-            }
-            Console.WriteLine("m=" + stringVal);
+            try {
+                g.Clear(BackColor);
+                Matrix m = MapData.getMatrixToFitRectInRect(mapData.Bounds,
+                    g.VisibleClipBounds);
+                g.Transform = m;
+                //// DEBUG
+                //Console.WriteLine("PaintDiagramFull Matrix:");
+                //Console.WriteLine("  mapData.Bounds=" + mapData.Bounds);
+                //Console.WriteLine("  g.VisibleClipBounds=" + g.VisibleClipBounds);
+                //string stringVal = "  ";
+                //foreach (float val in m.Elements) {
+                //    stringVal += " " + val;
+                //}
+                //Console.WriteLine("m=" + stringVal);
 
-            int item = cbCircles.SelectedIndex;
-            GraphicsPath gp = new GraphicsPath();
-            GraphicsPath gp2 = new GraphicsPath();
-            GraphicsPath gp3 = new GraphicsPath();
-            if (chkShowSites.Checked) {
-                // Color the regions
+                int item = cbCircles.SelectedIndex;
+                GraphicsPath gp = new GraphicsPath();
+                GraphicsPath gp2 = new GraphicsPath();
+                GraphicsPath gp3 = new GraphicsPath();
+                if (chkShowSites.Checked) {
+                    // Color the regions
+                    foreach (Site site in _graph.Sites) {
+                        GraphicsPath gp4 = new GraphicsPath();
+                        RectangleF visibleClipBounds = g.VisibleClipBounds;
+                        //Console.WriteLine("ClipBounds " + visibleClipBounds);
+                        PointF[] points = site.Region(visibleClipBounds).
+                            Where(site1 => site1 != null).
+                            Select(site1 => (PointF)site1).ToArray();
+                        if (points.Count() >= 3) {
+                            gp4.AddPolygon(points);
+                        }
+                        Region region = new Region(gp4);
+                        SolidBrush brush = new SolidBrush(site.Color);
+                        g.FillRegion(brush, region);
+                        brush.Dispose();
+                    }
+                }
+                // Do the rest
                 foreach (Site site in _graph.Sites) {
-                    GraphicsPath gp4 = new GraphicsPath();
-                    RectangleF visibleClipBounds = g.VisibleClipBounds;
-                    //Console.WriteLine("ClipBounds " + visibleClipBounds);
-                    PointF[] points = site.Region(visibleClipBounds).
-                        Where(site1 => site1 != null).
-                        Select(site1 => (PointF)site1).ToArray();
-                    if (points.Count() >= 3) {
-                        gp4.AddPolygon(points);
+                    RectangleF r = new RectangleF(site.X - 2, site.Y - 2, 4, 4);
+                    if (chkShowNumbers.Checked) {
+                        gp.AddEllipse(r);
+                        g.DrawString(site.NumString(), _textFont, _siteBrush,
+                            site.X, site.Y);
                     }
-                    Region region = new Region(gp4);
-                    SolidBrush brush = new SolidBrush(site.Color);
-                    g.FillRegion(brush, region);
-                    brush.Dispose();
-                }
-            }
-            // Do the rest
-            foreach (Site site in _graph.Sites) {
-                RectangleF r = new RectangleF(site.X - 2, site.Y - 2, 4, 4);
-                if (chkShowNumbers.Checked) {
-                    gp.AddEllipse(r);
-                    g.DrawString(site.NumString(), _textFont, _siteBrush,
-                        site.X, site.Y);
-                }
-                foreach (Edge edge in site.Edges) {
-                    Site start = edge.RightSite;
-                    Site end = edge.LeftSite;
-                    if (item == 2) {
-                        gp2.AddLine(start, end);
-                        gp2.CloseFigure();
+                    foreach (Edge edge in site.Edges) {
+                        Site start = edge.RightSite;
+                        Site end = edge.LeftSite;
+                        if (item == 2) {
+                            gp2.AddLine(start, end);
+                            gp2.CloseFigure();
+                        }
+                    }
+                    if (chkShowEdges.Checked) {
+                        RectangleF visibleClipBounds = g.VisibleClipBounds;
+                        PointF[] points = site.Region(visibleClipBounds).
+                            Where(site1 => site1 != null).
+                            Select(site1 => (PointF)site1).ToArray();
+                        if (points.Count() >= 3) {
+                            gp3.AddPolygon(points);
+                        }
                     }
                 }
-                if (chkShowEdges.Checked) {
-                    RectangleF visibleClipBounds = g.VisibleClipBounds;
-                    PointF[] points = site.Region(visibleClipBounds).
-                        Where(site1 => site1 != null).
-                        Select(site1 => (PointF)site1).ToArray();
-                    if (points.Count() >= 3) {
-                        gp3.AddPolygon(points);
-                    }
-                }
-            }
-            g.DrawPath(_circlePen, gp2);
-            g.DrawPath(_edgePen, gp3);
-            g.FillPath(_siteBrush, gp);
-            // Draw mapData Bounds
-            g.DrawRectangle(_edgePen, mapData.Left, mapData.Top, mapData.Width - 1, mapData.Height - 1);
+                g.DrawPath(_circlePen, gp2);
+                g.DrawPath(_edgePen, gp3);
+                g.FillPath(_siteBrush, gp);
+                // Draw mapData Bounds
+                g.DrawRectangle(_edgePen, mapData.Left, mapData.Top, mapData.Width - 1, mapData.Height - 1);
 
-            bitMapDrawn = true;
+                bitMapDrawn = true;
+            } catch (Exception ex) {
+                Utils.excMsg("Error drawing full diagram", ex);
+                return;
+            }
         }
-
-        private HashSet<Site> _sitesToIgnore = new HashSet<Site>();
 
         private void PaintDiagramIncremental(Graphics g) {
 #if traceFlow
@@ -344,119 +352,124 @@ namespace VoronoiMap {
                 return;
             }
             if (bitMapDrawn) return;
-            if (mapData == null) return;
             g.Clear(BackColor);
-            Matrix m = MapData.getMatrixToFitRectInRect(mapData.Bounds,
-                g.VisibleClipBounds);
-            g.Transform = m;
-            g.DrawLine(_sweepPen, splitPanel.Panel2.ClientRectangle.Left,
-                _graph.SweepLine, splitPanel.Panel2.ClientRectangle.Right,
-                _graph.SweepLine);
-            int item = cbCircles.SelectedIndex;
-            if (item == 1) {
-                GraphicsPath gp = new GraphicsPath();
-                foreach (Triangle triangle in _graph.Triangles) {
-                    Circle circle = new Circle(triangle.V1, triangle.V2,
-                        triangle.V3);
-                    if (triangle.New) {
-                        g.DrawEllipse(_newCirclePen, circle.GetRect());
-                    } else {
-                        gp.AddEllipse(circle.GetRect());
-                    }
-                }
-                g.DrawPath(_circlePen, gp);
-            } else if (item == 2) {
-                GraphicsPath gp = new GraphicsPath();
-                foreach (Triangle triangle in _graph.Triangles) {
-                    if (triangle.New) {
-                        g.DrawPolygon(_newCirclePen, new[] {
-                            (PointF)triangle.V1, triangle.V2, triangle.V3 });
-                    } else {
-                        gp.AddPolygon(new[] { (PointF)triangle.V1, triangle.V2,
-                            triangle.V3 });
-                    }
-                }
-                g.DrawPath(_circlePen, gp);
-            }
-            if (chkShowEdges.Checked) {
-                GraphicsPath gp = new GraphicsPath();
-                foreach (Segment segment in _graph.Segments) {
-                    Site start = segment.P1;
-                    Site end = segment.P2;
-                    if (segment.New) {
-                        g.DrawLine(_newEdgePen, start, end);
-                    } else {
-                        gp.AddLine(start, end);
-                        gp.CloseFigure();
-                    }
-                }
-                g.DrawPath(_edgePen, gp);
-            }
-            if (chkBeachline.Checked) {
-                GraphicsPath gp = new GraphicsPath();
-                Dictionary<int, float> beachLine = new Dictionary<int, float>();
-                foreach (Site site in
-                    _graph.Sites.Except(_sitesToIgnore.ToList())) {
-                    bool drop = true;
-                    for (int x = 0; x < g.VisibleClipBounds.Width; x++) {
-                        float y = ParabolaY(site, _graph.SweepLine, x);
-                        if (y > g.VisibleClipBounds.Height) {
-                            drop = false;
-                            continue;
-                        }
-                        if (!beachLine.ContainsKey(x)) {
-                            beachLine[x] = y;
-                            drop = false;
-                        } else if (beachLine[x] < y) {
-                            beachLine[x] = y;
-                            drop = false;
-                        }
-                    }
-                    if (drop) {
-                        _sitesToIgnore.Add(site);
-                    }
-                }
-                for (int x = 0; x < beachLine.Count - 1; x++) {
-                    gp.AddLine(x, beachLine[x], x + 1, beachLine[x + 1]);
-                }
-                g.DrawPath(_beachPen, gp);
-            }
-            if (chkShowVertices.Checked) {
-                GraphicsPath gp = new GraphicsPath();
-                foreach (Site vertex in _graph.Vertices) {
-                    RectangleF r = vertex.New ?
-                        new RectangleF(vertex.X - 4, vertex.Y - 4, 8, 8)
-                        : new RectangleF(vertex.X - 2, vertex.Y - 2, 4, 4)
-                        ;
-                    if (vertex.New) {
-                        g.FillEllipse(_newVertBrush, r);
-                    } else {
-                        gp.AddEllipse(r);
-                    }
-                }
-                g.DrawPath(new Pen(Color.Red), gp);
-            }
-            foreach (Site site in _graph.Sites) {
-                if (chkShowSites.Checked) {
+            try {
+                Matrix m = MapData.getMatrixToFitRectInRect(mapData.Bounds,
+                    g.VisibleClipBounds);
+                g.Transform = m;
+                g.DrawLine(_sweepPen, splitPanel.Panel2.ClientRectangle.Left,
+                    _graph.SweepLine, splitPanel.Panel2.ClientRectangle.Right,
+                    _graph.SweepLine);
+                int item = cbCircles.SelectedIndex;
+                if (item == 1) {
                     GraphicsPath gp = new GraphicsPath();
-                    RectangleF r = site.New ?
-                        new RectangleF(site.X - 4, site.Y - 4, 8, 8)
-                        : new RectangleF(site.X - 2, site.Y - 2, 4, 4);
-                    if (site.New) {
-                        g.FillEllipse(_newSiteBrush, r);
-                    } else {
-                        gp.AddEllipse(r);
+                    foreach (Triangle triangle in _graph.Triangles) {
+                        Circle circle = new Circle(triangle.V1, triangle.V2,
+                            triangle.V3);
+                        if (triangle.New) {
+                            g.DrawEllipse(_newCirclePen, circle.GetRect());
+                        } else {
+                            gp.AddEllipse(circle.GetRect());
+                        }
                     }
-                    g.FillPath(_siteBrush, gp);
+                    g.DrawPath(_circlePen, gp);
+                } else if (item == 2) {
+                    GraphicsPath gp = new GraphicsPath();
+                    foreach (Triangle triangle in _graph.Triangles) {
+                        if (triangle.New) {
+                            g.DrawPolygon(_newCirclePen, new[] {
+                            (PointF)triangle.V1, triangle.V2, triangle.V3 });
+                        } else {
+                            gp.AddPolygon(new[] { (PointF)triangle.V1, triangle.V2,
+                            triangle.V3 });
+                        }
+                    }
+                    g.DrawPath(_circlePen, gp);
                 }
-                if (chkShowNumbers.Checked) {
-                    g.DrawString(site.NumString(), _textFont,
-                        _siteBrush, site.X, site.Y);
+                if (chkShowEdges.Checked) {
+                    GraphicsPath gp = new GraphicsPath();
+                    foreach (Segment segment in _graph.Segments) {
+                        Site start = segment.P1;
+                        Site end = segment.P2;
+                        if (segment.New) {
+                            g.DrawLine(_newEdgePen, start, end);
+                        } else {
+                            gp.AddLine(start, end);
+                            gp.CloseFigure();
+                        }
+                    }
+                    g.DrawPath(_edgePen, gp);
                 }
+                if (chkBeachline.Checked) {
+                    GraphicsPath gp = new GraphicsPath();
+                    Dictionary<int, float> beachLine = new Dictionary<int, float>();
+                    foreach (Site site in
+                        _graph.Sites.Except(_sitesToIgnore.ToList())) {
+                        bool drop = true;
+                        for (int x = 0; x < g.VisibleClipBounds.Width; x++) {
+                            float y = ParabolaY(site, _graph.SweepLine, x);
+                            if (y > g.VisibleClipBounds.Height) {
+                                drop = false;
+                                continue;
+                            }
+                            if (!beachLine.ContainsKey(x)) {
+                                beachLine[x] = y;
+                                drop = false;
+                            } else if (beachLine[x] < y) {
+                                beachLine[x] = y;
+                                drop = false;
+                            }
+                        }
+                        if (drop) {
+                            _sitesToIgnore.Add(site);
+                        }
+                    }
+                    for (int x = 0; x < beachLine.Count - 1; x++) {
+                        gp.AddLine(x, beachLine[x], x + 1, beachLine[x + 1]);
+                    }
+                    g.DrawPath(_beachPen, gp);
+                }
+                if (chkShowVertices.Checked) {
+                    GraphicsPath gp = new GraphicsPath();
+                    foreach (Site vertex in _graph.Vertices) {
+                        RectangleF r = vertex.New ?
+                            new RectangleF(vertex.X - 4, vertex.Y - 4, 8, 8)
+                            : new RectangleF(vertex.X - 2, vertex.Y - 2, 4, 4)
+                            ;
+                        if (vertex.New) {
+                            g.FillEllipse(_newVertBrush, r);
+                        } else {
+                            gp.AddEllipse(r);
+                        }
+                    }
+                    g.DrawPath(new Pen(Color.Red), gp);
+                }
+                foreach (Site site in _graph.Sites) {
+                    if (chkShowSites.Checked) {
+                        GraphicsPath gp = new GraphicsPath();
+                        RectangleF r = site.New ?
+                            new RectangleF(site.X - 4, site.Y - 4, 8, 8)
+                            : new RectangleF(site.X - 2, site.Y - 2, 4, 4);
+                        if (site.New) {
+                            g.FillEllipse(_newSiteBrush, r);
+                        } else {
+                            gp.AddEllipse(r);
+                        }
+                        g.FillPath(_siteBrush, gp);
+                    }
+                    if (chkShowNumbers.Checked) {
+                        g.DrawString(site.NumString(), _textFont,
+                            _siteBrush, site.X, site.Y);
+                    }
+                }
+                // Draw mapData Bounds
+                g.DrawRectangle(_edgePen, mapData.Left, mapData.Top, mapData.Width - 1, mapData.Height - 1);
+                bitMapDrawn = true;
+            } catch (Exception ex) {
+                Utils.excMsg("Error drawing incremental diagram", ex);
+                paintError = true;
+                return;
             }
-            // Draw mapData Bounds
-            g.DrawRectangle(_edgePen, mapData.Left, mapData.Top, mapData.Width - 1, mapData.Height - 1);
-            bitMapDrawn = true;
         }
 
         private float ParabolaY(Site site, float sweepLineY, int x) {
@@ -608,7 +621,14 @@ namespace VoronoiMap {
                 while (_voronoi.StepNumber < toStep) {
                     _voronoi.StepVoronoi();
                     bitMapDrawn = false;
+                    paintError = false;
+                    Console.WriteLine("Animate: step=" + _voronoi.StepNumber);
+                    // This is the only place PaintDiagram is being called explicitly
                     PaintDiagram(g);
+                    if (paintError) {
+                        Console.WriteLine("Paint Error step=" + _voronoi.StepNumber);
+                        break;
+                    }
                     Thread.Sleep(10);
                     Application.DoEvents();
                     if (lastStep == _voronoi.StepNumber) {
@@ -636,6 +656,10 @@ namespace VoronoiMap {
             }
             decimal startStep = nudStepTo.Value;
             Animate();
+            if (paintError) {
+                paintError = false;
+                return;
+            }
             if (nudStepTo.Value == startStep) {
                 _voronoi = null;
                 btnAnimate_Click(sender, e);
@@ -719,6 +743,13 @@ namespace VoronoiMap {
         private void file_ResetSettings_click(object sender, EventArgs e) {
             Properties.Settings.Default.Reset();
             loadSettings();
+        }
+
+        private void tools_FileFromImage_Click(object sender, EventArgs e) {
+            if (createFileFromImageDlg == null) {
+                createFileFromImageDlg = new CreateFileFromImageDialog();
+            }
+            createFileFromImageDlg.Show();
         }
     }
 }

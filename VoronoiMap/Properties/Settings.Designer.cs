@@ -98,6 +98,18 @@ namespace VoronoiMap.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowNumbers {
+            get {
+                return ((bool)(this["ShowNumbers"]));
+            }
+            set {
+                this["ShowNumbers"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool UseFile {
             get {
                 return ((bool)(this["UseFile"]));
