@@ -40,6 +40,20 @@ namespace VoronoiMap {
             SiteList = siteList;
         }
 
+        public MapData(MapData mapData0) {
+            if (mapData0 == null) return;
+            Left = mapData0.Left;
+            Right = mapData0.Right;
+            Top = mapData0.Top;
+            Bottom = mapData0.Bottom;
+            BasicSite newBasicSite;
+            foreach (BasicSite basicSite in mapData0.SiteList) {
+                newBasicSite = new BasicSite(basicSite.X, basicSite.Y,
+                    basicSite.Color, basicSite.Height);
+                SiteList.Add(newBasicSite);
+            }
+        }
+
         public MapData(string fileName) {
             string json = File.ReadAllText(fileName);
             MapData newMapData = JsonConvert.DeserializeObject<MapData>(json);

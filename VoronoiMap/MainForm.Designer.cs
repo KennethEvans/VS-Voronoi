@@ -61,10 +61,10 @@
             this.resetSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fileFromImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitPanel)).BeginInit();
             this.splitPanel.Panel1.SuspendLayout();
             this.splitPanel.SuspendLayout();
@@ -82,7 +82,7 @@
             this.splitPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitPanel.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitPanel.IsSplitterFixed = true;
-            this.splitPanel.Location = new System.Drawing.Point(10, 62);
+            this.splitPanel.Location = new System.Drawing.Point(10, 59);
             this.splitPanel.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.splitPanel.Name = "splitPanel";
             // 
@@ -96,7 +96,7 @@
             // 
             this.splitPanel.Panel2.BackColor = System.Drawing.SystemColors.Control;
             this.splitPanel.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
-            this.splitPanel.Size = new System.Drawing.Size(1448, 1067);
+            this.splitPanel.Size = new System.Drawing.Size(1448, 1070);
             this.splitPanel.SplitterDistance = 250;
             this.splitPanel.SplitterWidth = 10;
             this.splitPanel.TabIndex = 0;
@@ -153,7 +153,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(246, 1063);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(246, 1066);
             this.tableLayoutPanel1.TabIndex = 19;
             // 
             // seedLabel
@@ -485,7 +485,7 @@
             this.helpToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(10, 10);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1448, 52);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1448, 49);
             this.mainMenuStrip.TabIndex = 1;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
@@ -500,7 +500,7 @@
             this.toolStripSeparator3,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 48);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 45);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openInputFileToolStripMenuItem
@@ -562,12 +562,27 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.file_Exit_click);
             // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileFromImageToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(99, 45);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // fileFromImageToolStripMenuItem
+            // 
+            this.fileFromImageToolStripMenuItem.Name = "fileFromImageToolStripMenuItem";
+            this.fileFromImageToolStripMenuItem.Size = new System.Drawing.Size(360, 46);
+            this.fileFromImageToolStripMenuItem.Text = "File from Image...";
+            this.fileFromImageToolStripMenuItem.Click += new System.EventHandler(this.tools_FileFromImage_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 48);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 45);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
@@ -576,21 +591,6 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(214, 46);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.help_About_click);
-            // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileFromImageToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(99, 48);
-            this.toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // fileFromImageToolStripMenuItem
-            // 
-            this.fileFromImageToolStripMenuItem.Name = "fileFromImageToolStripMenuItem";
-            this.fileFromImageToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
-            this.fileFromImageToolStripMenuItem.Text = "File from Image...";
-            this.fileFromImageToolStripMenuItem.Click += new System.EventHandler(this.tools_FileFromImage_Click);
             // 
             // MainForm
             // 

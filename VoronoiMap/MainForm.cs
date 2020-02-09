@@ -123,20 +123,25 @@ namespace VoronoiMap {
         private MapData getMapData() {
             if (chkUseFile.Checked) {
                 if (mapDataFromFile == null) {
+                    // Check if there is a file name specified
                     if (String.IsNullOrEmpty(mapDataFileName)) {
-                        Utils.errMsg("Use File is checked but there is no map " +
-                            "data available from a file");
-                        return null;
-                    } else {
-                        try {
-                            mapDataFromFile = new MapData(mapDataFileName);
-                            fileNameTextBox.Text = mapDataFileName;
-                            fileNameTextBox.SelectionStart = fileNameTextBox.Text.Length;
-                            fileNameTextBox.SelectionLength = 0;
-                        } catch (Exception ex) {
-                            Utils.excMsg("Unable to load " + mapDataFileName, ex);
+                        mapDataFileName = fileNameTextBox.Text;
+                        if (String.IsNullOrEmpty(mapDataFileName)) {
+                            Utils.errMsg("Use File is checked but there is no map " +
+                                "data or file name");
                             return null;
                         }
+                    }
+                    try {
+                        mapDataFromFile = new MapData(mapDataFileName);
+                        fileNameTextBox.Text = mapDataFileName;
+                        fileNameTextBox.SelectionStart = fileNameTextBox.Text.Length;
+                        fileNameTextBox.SelectionLength = 0;
+                        scaleMapDataFromFile();
+                        mapData = mapDataFromFile;
+                    } catch (Exception ex) {
+                        Utils.excMsg("Unable to load " + mapDataFileName, ex);
+                        return null;
                     }
                 }
                 mapData = mapDataFromFile;
@@ -185,6 +190,7 @@ namespace VoronoiMap {
             long start = Stopwatch.GetTimestamp();
             List<BasicSite> basicSites = new List<BasicSite>();
             mapData = getMapData();
+            printMapData("GenerateGraph mapdata=", mapData);
             if (mapData == null) {
                 return;
             }
@@ -485,6 +491,44 @@ namespace VoronoiMap {
             }
         }
 
+        private void scaleMapDataFromFile() {
+            if (mapDataFromFile == null) return;
+            printMapData("scaleMapDataFromFile: Before: ", mapDataFromFile);
+            Console.WriteLine("splitPanel.Panel2.ClientSize=" + splitPanel.Panel2.ClientSize);
+            // Convert to pixel coordinates
+            MapData oldMapData = new MapData(mapDataFromFile);
+            printMapData("scaleMapDataFromFile: Before: ", oldMapData);
+            int w = splitPanel.Panel2.ClientSize.Width;
+            int h = splitPanel.Panel2.ClientSize.Height;
+            List<BasicSite> basicSiteList = new List<BasicSite>();
+            Point p1;
+            BasicSite basicSite1;
+            mapDataFromFile = new MapData(0, w, 0, h, basicSiteList);
+            Transform trans = new Transform(splitPanel.Panel2.ClientSize, oldMapData);
+            foreach (BasicSite basicSite in oldMapData.SiteList) {
+                p1 = trans.tp(new PointF(basicSite.X, basicSite.Y));
+                basicSite1 = new BasicSite(p1.X, p1.Y, basicSite.Color);
+                basicSiteList.Add(basicSite1);
+            }
+            printMapData("    After: ", mapDataFromFile);
+        }
+
+        private void printMapData(string prefix, MapData mapData) {
+            float xmin = float.MaxValue;
+            float xmax = -float.MaxValue;
+            float ymin = float.MaxValue;
+            float ymax = -float.MaxValue;
+            foreach (BasicSite site in mapData.SiteList) {
+                if (site.X < xmin) xmin = site.X;
+                if (site.X > xmax) xmax = site.X;
+                if (site.Y < ymin) ymin = site.Y;
+                if (site.Y > ymax) ymax = site.Y;
+            }
+            Console.WriteLine(prefix + "mapData=" + mapData);
+            Console.WriteLine("xmin=" + xmin + " xmax=" + xmax
+                + " ymin=" + ymin + " ymax=" + ymax);
+        }
+
         private List<BasicSite> RelaxPoints(int times, List<BasicSite> sites) {
             List<BasicSite> ret = new List<BasicSite>();
             int w = splitPanel.Panel2.ClientSize.Width;
@@ -704,6 +748,7 @@ namespace VoronoiMap {
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 mapDataFileName = dlg.FileName;
                 mapDataFromFile = new MapData(dlg.FileName);
+                scaleMapDataFromFile();
                 fileNameTextBox.Text = mapDataFileName;
                 fileNameTextBox.SelectionStart = fileNameTextBox.Text.Length;
                 fileNameTextBox.SelectionLength = 0;
