@@ -1,5 +1,5 @@
 ﻿#undef dumpSites
-#define traceFlow
+#undef traceFlow
 
 using System;
 using System.Collections.Generic;
@@ -494,7 +494,7 @@ namespace VoronoiMap {
         private void scaleMapDataFromFile() {
             if (mapDataFromFile == null) return;
             printMapData("scaleMapDataFromFile: Before: ", mapDataFromFile);
-            Console.WriteLine("splitPanel.Panel2.ClientSize=" + splitPanel.Panel2.ClientSize);
+            //Console.WriteLine("splitPanel.Panel2.ClientSize=" + splitPanel.Panel2.ClientSize);
             // Convert to pixel coordinates
             MapData oldMapData = new MapData(mapDataFromFile);
             printMapData("scaleMapDataFromFile: Before: ", oldMapData);
@@ -666,7 +666,7 @@ namespace VoronoiMap {
                     _voronoi.StepVoronoi();
                     bitMapDrawn = false;
                     paintError = false;
-                    Console.WriteLine("Animate: step=" + _voronoi.StepNumber);
+                    //Console.WriteLine("Animate: step=" + _voronoi.StepNumber);
                     // This is the only place PaintDiagram is being called explicitly
                     PaintDiagram(g);
                     if (paintError) {

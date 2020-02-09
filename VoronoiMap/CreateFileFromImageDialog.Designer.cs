@@ -60,6 +60,7 @@
             this.labelMarginV = new System.Windows.Forms.Label();
             this.textBoxMarginV = new System.Windows.Forms.TextBox();
             this.checkBoxRandom = new System.Windows.Forms.CheckBox();
+            this.buttonNewJson = new System.Windows.Forms.Button();
             this.flowLayoutPanelButtons.SuspendLayout();
             this.tableLayoutPanelFiles.SuspendLayout();
             this.topTableLayoutPanel.SuspendLayout();
@@ -76,13 +77,14 @@
             this.flowLayoutPanelButtons.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanelButtons.Controls.Add(this.buttonClear);
             this.flowLayoutPanelButtons.Controls.Add(this.buttonRandom);
+            this.flowLayoutPanelButtons.Controls.Add(this.buttonNewJson);
             this.flowLayoutPanelButtons.Controls.Add(this.buttonOpen);
             this.flowLayoutPanelButtons.Controls.Add(this.buttonSave);
             this.flowLayoutPanelButtons.Controls.Add(this.buttonQuit);
-            this.flowLayoutPanelButtons.Location = new System.Drawing.Point(246, 1368);
+            this.flowLayoutPanelButtons.Location = new System.Drawing.Point(143, 1368);
             this.flowLayoutPanelButtons.Margin = new System.Windows.Forms.Padding(6);
             this.flowLayoutPanelButtons.Name = "flowLayoutPanelButtons";
-            this.flowLayoutPanelButtons.Size = new System.Drawing.Size(855, 57);
+            this.flowLayoutPanelButtons.Size = new System.Drawing.Size(1062, 57);
             this.flowLayoutPanelButtons.TabIndex = 4;
             this.flowLayoutPanelButtons.WrapContents = false;
             // 
@@ -116,7 +118,7 @@
             // 
             this.buttonOpen.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonOpen.AutoSize = true;
-            this.buttonOpen.Location = new System.Drawing.Point(375, 6);
+            this.buttonOpen.Location = new System.Drawing.Point(582, 6);
             this.buttonOpen.Margin = new System.Windows.Forms.Padding(6);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(150, 45);
@@ -129,7 +131,7 @@
             // 
             this.buttonSave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonSave.AutoSize = true;
-            this.buttonSave.Location = new System.Drawing.Point(537, 6);
+            this.buttonSave.Location = new System.Drawing.Point(744, 6);
             this.buttonSave.Margin = new System.Windows.Forms.Padding(6);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(150, 45);
@@ -142,7 +144,7 @@
             // 
             this.buttonQuit.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.buttonQuit.AutoSize = true;
-            this.buttonQuit.Location = new System.Drawing.Point(699, 6);
+            this.buttonQuit.Location = new System.Drawing.Point(906, 6);
             this.buttonQuit.Margin = new System.Windows.Forms.Padding(6);
             this.buttonQuit.Name = "buttonQuit";
             this.buttonQuit.Size = new System.Drawing.Size(150, 45);
@@ -325,6 +327,9 @@
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox.TabIndex = 3;
             this.pictureBox.TabStop = false;
+            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
+            this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
+            this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
             // 
             // groupBoxFiles
             // 
@@ -540,6 +545,19 @@
             this.checkBoxRandom.UseVisualStyleBackColor = true;
             this.checkBoxRandom.CheckedChanged += new System.EventHandler(this.OnRandomCheckChanged);
             // 
+            // buttonNewJson
+            // 
+            this.buttonNewJson.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonNewJson.AutoSize = true;
+            this.buttonNewJson.Location = new System.Drawing.Point(375, 6);
+            this.buttonNewJson.Margin = new System.Windows.Forms.Padding(6);
+            this.buttonNewJson.Name = "buttonNewJson";
+            this.buttonNewJson.Size = new System.Drawing.Size(195, 45);
+            this.buttonNewJson.TabIndex = 5;
+            this.buttonNewJson.Text = "New JSON";
+            this.buttonNewJson.UseVisualStyleBackColor = true;
+            this.buttonNewJson.Click += new System.EventHandler(this.OnNewJsonButtonClick);
+            // 
             // CreateFileFromImageDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
@@ -606,5 +624,6 @@
         private System.Windows.Forms.Button buttonJsonFileBrowse;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonRandom;
+        private System.Windows.Forms.Button buttonNewJson;
     }
 }
