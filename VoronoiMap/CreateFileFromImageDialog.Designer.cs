@@ -62,6 +62,7 @@
             this.labelMarginV = new System.Windows.Forms.Label();
             this.textBoxMarginV = new System.Windows.Forms.TextBox();
             this.checkBoxRandom = new System.Windows.Forms.CheckBox();
+            this.checkBoxLatScaling = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.flowLayoutPanelButtons.SuspendLayout();
             this.tableLayoutPanelFiles.SuspendLayout();
@@ -406,6 +407,7 @@
             this.tableLayoutPanelOptions.Controls.Add(this.labelMarginV, 2, 3);
             this.tableLayoutPanelOptions.Controls.Add(this.textBoxMarginV, 3, 3);
             this.tableLayoutPanelOptions.Controls.Add(this.checkBoxRandom, 0, 4);
+            this.tableLayoutPanelOptions.Controls.Add(this.checkBoxLatScaling, 1, 4);
             this.tableLayoutPanelOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelOptions.Location = new System.Drawing.Point(3, 34);
             this.tableLayoutPanelOptions.Margin = new System.Windows.Forms.Padding(6);
@@ -466,7 +468,7 @@
             // 
             this.labelRight.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelRight.AutoSize = true;
-            this.labelRight.Location = new System.Drawing.Point(476, 59);
+            this.labelRight.Location = new System.Drawing.Point(528, 59);
             this.labelRight.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelRight.Name = "labelRight";
             this.labelRight.Size = new System.Drawing.Size(90, 32);
@@ -476,7 +478,7 @@
             // textBoxRight
             // 
             this.textBoxRight.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textBoxRight.Location = new System.Drawing.Point(701, 56);
+            this.textBoxRight.Location = new System.Drawing.Point(753, 56);
             this.textBoxRight.Margin = new System.Windows.Forms.Padding(6);
             this.textBoxRight.Name = "textBoxRight";
             this.textBoxRight.Size = new System.Drawing.Size(200, 38);
@@ -508,7 +510,7 @@
             // 
             this.labelBottom.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelBottom.AutoSize = true;
-            this.labelBottom.Location = new System.Drawing.Point(476, 109);
+            this.labelBottom.Location = new System.Drawing.Point(528, 109);
             this.labelBottom.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelBottom.Name = "labelBottom";
             this.labelBottom.Size = new System.Drawing.Size(113, 32);
@@ -518,7 +520,7 @@
             // textBoxBottom
             // 
             this.textBoxBottom.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textBoxBottom.Location = new System.Drawing.Point(701, 106);
+            this.textBoxBottom.Location = new System.Drawing.Point(753, 106);
             this.textBoxBottom.Margin = new System.Windows.Forms.Padding(6);
             this.textBoxBottom.Name = "textBoxBottom";
             this.textBoxBottom.Size = new System.Drawing.Size(200, 38);
@@ -549,7 +551,7 @@
             // 
             this.labelMarginV.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.labelMarginV.AutoSize = true;
-            this.labelMarginV.Location = new System.Drawing.Point(476, 159);
+            this.labelMarginV.Location = new System.Drawing.Point(528, 159);
             this.labelMarginV.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelMarginV.Name = "labelMarginV";
             this.labelMarginV.Size = new System.Drawing.Size(213, 32);
@@ -559,7 +561,7 @@
             // textBoxMarginV
             // 
             this.textBoxMarginV.Dock = System.Windows.Forms.DockStyle.Left;
-            this.textBoxMarginV.Location = new System.Drawing.Point(701, 156);
+            this.textBoxMarginV.Location = new System.Drawing.Point(753, 156);
             this.textBoxMarginV.Margin = new System.Windows.Forms.Padding(6);
             this.textBoxMarginV.Name = "textBoxMarginV";
             this.textBoxMarginV.Size = new System.Drawing.Size(200, 38);
@@ -576,6 +578,17 @@
             this.toolTip.SetToolTip(this.checkBoxRandom, "Use random or use sites form JSON file");
             this.checkBoxRandom.UseVisualStyleBackColor = true;
             this.checkBoxRandom.CheckedChanged += new System.EventHandler(this.OnRandomCheckChanged);
+            // 
+            // checkBoxLatScaling
+            // 
+            this.checkBoxLatScaling.AutoSize = true;
+            this.checkBoxLatScaling.Location = new System.Drawing.Point(261, 203);
+            this.checkBoxLatScaling.Name = "checkBoxLatScaling";
+            this.checkBoxLatScaling.Size = new System.Drawing.Size(258, 36);
+            this.checkBoxLatScaling.TabIndex = 15;
+            this.checkBoxLatScaling.Text = "Latitude Scaling";
+            this.toolTip.SetToolTip(this.checkBoxLatScaling, "Reduce random sites by latitude");
+            this.checkBoxLatScaling.UseVisualStyleBackColor = true;
             // 
             // CreateFileFromImageDialog
             // 
@@ -645,5 +658,6 @@
         private System.Windows.Forms.Button buttonRandom;
         private System.Windows.Forms.Button buttonNewJson;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.CheckBox checkBoxLatScaling;
     }
 }

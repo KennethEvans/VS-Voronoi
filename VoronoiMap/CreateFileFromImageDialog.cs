@@ -14,7 +14,6 @@ namespace VoronoiMap {
         private static readonly int pointRadius = 4;
         private MapData fileMapData;
         private MapData randomMapData;
-        //private MapData manualMapData;
         private MapData mapData;     // The current MapData, one of the above
         private Bitmap bitmap;
         private Bitmap curBitmap;
@@ -27,6 +26,15 @@ namespace VoronoiMap {
             textBoxInputFile.Text = Properties.ImageSettings.Default.ImageFileName;
             textBoxJsonFile.Text = Properties.ImageSettings.Default.JsonFileName;
             textBoxOutputFile.Text = Properties.ImageSettings.Default.OutputFileName;
+            textBoxNPoints.Text = Properties.ImageSettings.Default.NPoints;
+            textBoxLeft.Text = Properties.ImageSettings.Default.Left;
+            textBoxRight.Text = Properties.ImageSettings.Default.Right;
+            textBoxTop.Text = Properties.ImageSettings.Default.Top;
+            textBoxBottom.Text = Properties.ImageSettings.Default.Bottom;
+            textBoxMarginH.Text = Properties.ImageSettings.Default.MarginH;
+            textBoxMarginV.Text = Properties.ImageSettings.Default.MarginV;
+            checkBoxRandom.Checked = Properties.ImageSettings.Default.Random;
+            checkBoxLatScaling.Checked = Properties.ImageSettings.Default.LatScaling;
 
             textBoxMarginH.Text = "0";
             textBoxMarginV.Text = "0";
@@ -36,6 +44,7 @@ namespace VoronoiMap {
             textBoxTop.Text = "90";
             textBoxBottom.Text = "-90";
             checkBoxRandom.Checked = false;
+            checkBoxLatScaling.Checked = false;
 
             if (File.Exists(textBoxInputFile.Text)) {
                 loadImage(textBoxInputFile.Text);
@@ -143,6 +152,15 @@ namespace VoronoiMap {
             return new MapData(left, right, top, bottom, basicSiteList);
         }
 
+        /// <summary>
+        /// Determines the normlized radius of a circle of constant latitude.
+        /// </summary>
+        /// <param name="lat">Latitude in degrees.</param>
+        /// <returns></returns>
+        private double latRatio(double lat) {
+            return Math.Abs(Math.Cos(Math.PI * lat / 180.0));
+        }
+
         private void OnInputFileBrowseButtonClick(object sender, System.EventArgs e) {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select an Image File";
@@ -221,6 +239,15 @@ namespace VoronoiMap {
             Properties.ImageSettings.Default.ImageFileName = textBoxInputFile.Text;
             Properties.ImageSettings.Default.JsonFileName = textBoxJsonFile.Text;
             Properties.ImageSettings.Default.OutputFileName = textBoxOutputFile.Text;
+            Properties.ImageSettings.Default.NPoints = textBoxNPoints.Text;
+            Properties.ImageSettings.Default.Left = textBoxLeft.Text;
+            Properties.ImageSettings.Default.Right = textBoxRight.Text;
+            Properties.ImageSettings.Default.Top = textBoxTop.Text;
+            Properties.ImageSettings.Default.Bottom = textBoxBottom.Text;
+            Properties.ImageSettings.Default.MarginH = textBoxMarginH.Text;
+            Properties.ImageSettings.Default.MarginV = textBoxMarginV.Text;
+            Properties.ImageSettings.Default.Random = checkBoxRandom.Checked;
+            Properties.ImageSettings.Default.LatScaling = checkBoxLatScaling.Checked;
             Properties.ImageSettings.Default.Save();
             Hide();
         }
@@ -266,8 +293,15 @@ namespace VoronoiMap {
                 BasicSite basicSite = null;
                 Random rand = new Random();
                 for (int i = 0; i < nPoints; i++) {
-                    x = randomMapData.Left + rand.NextDouble() * randomMapData.Width;
                     y = randomMapData.Top + rand.NextDouble() * randomMapData.Height;
+                    if (checkBoxLatScaling.Checked) {
+                        double ratio = latRatio(y);
+                        if (rand.NextDouble() > ratio) {
+                            i--;
+                            continue;
+                        }
+                    }
+                    x = randomMapData.Left + rand.NextDouble() * randomMapData.Width;
                     p1 = trans.tp(new PointF((float)x, (float)y));
                     x1 = p1.X;
                     y1 = p1.Y;
