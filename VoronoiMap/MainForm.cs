@@ -707,7 +707,7 @@ namespace VoronoiMap {
                     // This is the only place PaintDiagram is being called explicitly
                     PaintDiagram(g);
                     if (paintError) {
-                        writeInfo("Animate: Paint Error: step=" 
+                        writeInfo("Animate: Paint Error: step="
                             + _voronoi.StepNumber);
                         break;
                     }

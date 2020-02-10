@@ -36,16 +36,6 @@ namespace VoronoiMap {
             checkBoxRandom.Checked = Properties.ImageSettings.Default.Random;
             checkBoxLatScaling.Checked = Properties.ImageSettings.Default.LatScaling;
 
-            textBoxMarginH.Text = "0";
-            textBoxMarginV.Text = "0";
-            textBoxNPoints.Text = "1000";
-            textBoxLeft.Text = "-180";
-            textBoxRight.Text = "180";
-            textBoxTop.Text = "90";
-            textBoxBottom.Text = "-90";
-            checkBoxRandom.Checked = false;
-            checkBoxLatScaling.Checked = false;
-
             if (File.Exists(textBoxInputFile.Text)) {
                 loadImage(textBoxInputFile.Text);
             }
@@ -152,6 +142,11 @@ namespace VoronoiMap {
             return new MapData(left, right, top, bottom, basicSiteList);
         }
 
+        private double distance(BasicSite basicSite, PointF p) {
+            return (basicSite.X - p.X) * (basicSite.X - p.X) +
+                (basicSite.Y - p.Y) * (basicSite.Y - p.Y);
+        }
+
         /// <summary>
         /// Determines the normlized radius of a circle of constant latitude.
         /// </summary>
@@ -250,6 +245,11 @@ namespace VoronoiMap {
             Properties.ImageSettings.Default.LatScaling = checkBoxLatScaling.Checked;
             Properties.ImageSettings.Default.Save();
             Hide();
+        }
+
+        private void OnFormClosing(object sender, FormClosingEventArgs e) {
+            OnQuitButtonClick(null, null);
+            if (bitmap != null) bitmap.Dispose();
         }
 
         private void OnOpenButtonClick(object sender, MouseEventArgs e) {
@@ -483,11 +483,6 @@ namespace VoronoiMap {
         private void endMouseOperations() {
             mouseStatus = null;
             Cursor.Current = Cursors.Default;
-        }
-
-        private double distance(BasicSite basicSite, PointF p) {
-            return (basicSite.X - p.X) * (basicSite.X - p.X) +
-                (basicSite.Y - p.Y) * (basicSite.Y - p.Y);
         }
     }
 
