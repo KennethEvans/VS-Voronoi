@@ -23,10 +23,12 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateFileFromImageDialog));
             this.flowLayoutPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonClear = new System.Windows.Forms.Button();
             this.buttonRandom = new System.Windows.Forms.Button();
+            this.buttonNewJson = new System.Windows.Forms.Button();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonQuit = new System.Windows.Forms.Button();
@@ -60,7 +62,7 @@
             this.labelMarginV = new System.Windows.Forms.Label();
             this.textBoxMarginV = new System.Windows.Forms.TextBox();
             this.checkBoxRandom = new System.Windows.Forms.CheckBox();
-            this.buttonNewJson = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.flowLayoutPanelButtons.SuspendLayout();
             this.tableLayoutPanelFiles.SuspendLayout();
             this.topTableLayoutPanel.SuspendLayout();
@@ -96,8 +98,9 @@
             this.buttonClear.Margin = new System.Windows.Forms.Padding(6);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(150, 45);
-            this.buttonClear.TabIndex = 3;
+            this.buttonClear.TabIndex = 0;
             this.buttonClear.Text = "Clear";
+            this.toolTip.SetToolTip(this.buttonClear, "Clear sites");
             this.buttonClear.UseVisualStyleBackColor = true;
             this.buttonClear.Click += new System.EventHandler(this.OnClearButtonClick);
             // 
@@ -109,10 +112,25 @@
             this.buttonRandom.Margin = new System.Windows.Forms.Padding(6);
             this.buttonRandom.Name = "buttonRandom";
             this.buttonRandom.Size = new System.Drawing.Size(195, 45);
-            this.buttonRandom.TabIndex = 4;
+            this.buttonRandom.TabIndex = 1;
             this.buttonRandom.Text = "New Random";
+            this.toolTip.SetToolTip(this.buttonRandom, "Generate random sites");
             this.buttonRandom.UseVisualStyleBackColor = true;
             this.buttonRandom.Click += new System.EventHandler(this.OnNewRandomButtonClick);
+            // 
+            // buttonNewJson
+            // 
+            this.buttonNewJson.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buttonNewJson.AutoSize = true;
+            this.buttonNewJson.Location = new System.Drawing.Point(375, 6);
+            this.buttonNewJson.Margin = new System.Windows.Forms.Padding(6);
+            this.buttonNewJson.Name = "buttonNewJson";
+            this.buttonNewJson.Size = new System.Drawing.Size(195, 45);
+            this.buttonNewJson.TabIndex = 2;
+            this.buttonNewJson.Text = "New JSON";
+            this.toolTip.SetToolTip(this.buttonNewJson, "Open new JSON with sites");
+            this.buttonNewJson.UseVisualStyleBackColor = true;
+            this.buttonNewJson.Click += new System.EventHandler(this.OnJsonFileBrowse);
             // 
             // buttonOpen
             // 
@@ -122,8 +140,9 @@
             this.buttonOpen.Margin = new System.Windows.Forms.Padding(6);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(150, 45);
-            this.buttonOpen.TabIndex = 0;
+            this.buttonOpen.TabIndex = 3;
             this.buttonOpen.Text = "Open";
+            this.toolTip.SetToolTip(this.buttonOpen, "Open image file");
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnOpenButtonClick);
             // 
@@ -135,8 +154,9 @@
             this.buttonSave.Margin = new System.Windows.Forms.Padding(6);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(150, 45);
-            this.buttonSave.TabIndex = 1;
+            this.buttonSave.TabIndex = 4;
             this.buttonSave.Text = "Save";
+            this.toolTip.SetToolTip(this.buttonSave, "Save JSON file");
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.OnSaveButton_Click);
             // 
@@ -148,8 +168,9 @@
             this.buttonQuit.Margin = new System.Windows.Forms.Padding(6);
             this.buttonQuit.Name = "buttonQuit";
             this.buttonQuit.Size = new System.Drawing.Size(150, 45);
-            this.buttonQuit.TabIndex = 2;
+            this.buttonQuit.TabIndex = 5;
             this.buttonQuit.Text = "Quit";
+            this.toolTip.SetToolTip(this.buttonQuit, "Exit this dialog");
             this.buttonQuit.UseVisualStyleBackColor = true;
             this.buttonQuit.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnQuitButtonClick);
             // 
@@ -204,6 +225,7 @@
             this.textBoxInputFile.Name = "textBoxInputFile";
             this.textBoxInputFile.Size = new System.Drawing.Size(1036, 38);
             this.textBoxInputFile.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxInputFile, "Image file");
             // 
             // buttonFileInputFileBrowse
             // 
@@ -229,7 +251,7 @@
             this.labelJsonFile.Location = new System.Drawing.Point(3, 46);
             this.labelJsonFile.Name = "labelJsonFile";
             this.labelJsonFile.Size = new System.Drawing.Size(152, 46);
-            this.labelJsonFile.TabIndex = 8;
+            this.labelJsonFile.TabIndex = 3;
             this.labelJsonFile.Text = "JSON File:";
             this.labelJsonFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -240,7 +262,8 @@
             this.textBoxJsonFile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxJsonFile.Name = "textBoxJsonFile";
             this.textBoxJsonFile.Size = new System.Drawing.Size(1036, 38);
-            this.textBoxJsonFile.TabIndex = 7;
+            this.textBoxJsonFile.TabIndex = 4;
+            this.toolTip.SetToolTip(this.textBoxJsonFile, "JSON file with sites");
             // 
             // buttonJsonFileBrowse
             // 
@@ -252,7 +275,7 @@
             this.buttonJsonFileBrowse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonJsonFileBrowse.Name = "buttonJsonFileBrowse";
             this.buttonJsonFileBrowse.Size = new System.Drawing.Size(119, 42);
-            this.buttonJsonFileBrowse.TabIndex = 9;
+            this.buttonJsonFileBrowse.TabIndex = 5;
             this.buttonJsonFileBrowse.Text = "Browse";
             this.buttonJsonFileBrowse.UseVisualStyleBackColor = false;
             this.buttonJsonFileBrowse.Click += new System.EventHandler(this.OnJsonFileBrowse);
@@ -266,7 +289,7 @@
             this.labelOutputFile.Location = new System.Drawing.Point(3, 92);
             this.labelOutputFile.Name = "labelOutputFile";
             this.labelOutputFile.Size = new System.Drawing.Size(163, 46);
-            this.labelOutputFile.TabIndex = 3;
+            this.labelOutputFile.TabIndex = 6;
             this.labelOutputFile.Text = "Output File:";
             this.labelOutputFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -277,7 +300,8 @@
             this.textBoxOutputFile.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxOutputFile.Name = "textBoxOutputFile";
             this.textBoxOutputFile.Size = new System.Drawing.Size(1036, 38);
-            this.textBoxOutputFile.TabIndex = 6;
+            this.textBoxOutputFile.TabIndex = 7;
+            this.toolTip.SetToolTip(this.textBoxOutputFile, "JSON output file");
             // 
             // buttonOutputFileBrowse
             // 
@@ -289,7 +313,7 @@
             this.buttonOutputFileBrowse.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonOutputFileBrowse.Name = "buttonOutputFileBrowse";
             this.buttonOutputFileBrowse.Size = new System.Drawing.Size(119, 42);
-            this.buttonOutputFileBrowse.TabIndex = 5;
+            this.buttonOutputFileBrowse.TabIndex = 8;
             this.buttonOutputFileBrowse.Text = "Browse";
             this.buttonOutputFileBrowse.UseVisualStyleBackColor = false;
             this.buttonOutputFileBrowse.Click += new System.EventHandler(this.OnOutputFileBrowseButtonClick);
@@ -314,7 +338,7 @@
             this.topTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.topTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.topTableLayoutPanel.Size = new System.Drawing.Size(1348, 1431);
-            this.topTableLayoutPanel.TabIndex = 1;
+            this.topTableLayoutPanel.TabIndex = 0;
             // 
             // pictureBox
             // 
@@ -327,6 +351,7 @@
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox.TabIndex = 3;
             this.pictureBox.TabStop = false;
+            this.toolTip.SetToolTip(this.pictureBox, "Add: Click, Delete: Shift-Click, Move: Drag, Abort: Ctrl");
             this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
@@ -353,7 +378,7 @@
             this.groupBoxOptions.Location = new System.Drawing.Point(3, 1080);
             this.groupBoxOptions.Name = "groupBoxOptions";
             this.groupBoxOptions.Size = new System.Drawing.Size(1342, 279);
-            this.groupBoxOptions.TabIndex = 10;
+            this.groupBoxOptions.TabIndex = 0;
             this.groupBoxOptions.TabStop = false;
             this.groupBoxOptions.Text = "Options";
             // 
@@ -393,6 +418,7 @@
             this.tableLayoutPanelOptions.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelOptions.Size = new System.Drawing.Size(1336, 242);
             this.tableLayoutPanelOptions.TabIndex = 9;
+            this.toolTip.SetToolTip(this.tableLayoutPanelOptions, "Number of random points");
             // 
             // labelNPoints
             // 
@@ -413,6 +439,7 @@
             this.textBoxNPoints.Name = "textBoxNPoints";
             this.textBoxNPoints.Size = new System.Drawing.Size(200, 38);
             this.textBoxNPoints.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textBoxNPoints, "Number of points for random");
             // 
             // labelLeft
             // 
@@ -422,7 +449,7 @@
             this.labelLeft.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelLeft.Name = "labelLeft";
             this.labelLeft.Size = new System.Drawing.Size(71, 32);
-            this.labelLeft.TabIndex = 7;
+            this.labelLeft.TabIndex = 2;
             this.labelLeft.Text = "Left:";
             // 
             // textBoxLeft
@@ -432,7 +459,8 @@
             this.textBoxLeft.Margin = new System.Windows.Forms.Padding(6);
             this.textBoxLeft.Name = "textBoxLeft";
             this.textBoxLeft.Size = new System.Drawing.Size(200, 38);
-            this.textBoxLeft.TabIndex = 11;
+            this.textBoxLeft.TabIndex = 3;
+            this.toolTip.SetToolTip(this.textBoxLeft, "Left boundary for MapData");
             // 
             // labelRight
             // 
@@ -442,7 +470,7 @@
             this.labelRight.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelRight.Name = "labelRight";
             this.labelRight.Size = new System.Drawing.Size(90, 32);
-            this.labelRight.TabIndex = 6;
+            this.labelRight.TabIndex = 4;
             this.labelRight.Text = "Right:";
             // 
             // textBoxRight
@@ -452,7 +480,8 @@
             this.textBoxRight.Margin = new System.Windows.Forms.Padding(6);
             this.textBoxRight.Name = "textBoxRight";
             this.textBoxRight.Size = new System.Drawing.Size(200, 38);
-            this.textBoxRight.TabIndex = 10;
+            this.textBoxRight.TabIndex = 5;
+            this.toolTip.SetToolTip(this.textBoxRight, "Right boundary for MapData");
             // 
             // labelTop
             // 
@@ -462,7 +491,7 @@
             this.labelTop.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelTop.Name = "labelTop";
             this.labelTop.Size = new System.Drawing.Size(72, 32);
-            this.labelTop.TabIndex = 5;
+            this.labelTop.TabIndex = 6;
             this.labelTop.Text = "Top:";
             // 
             // textBoxTop
@@ -472,7 +501,8 @@
             this.textBoxTop.Margin = new System.Windows.Forms.Padding(6);
             this.textBoxTop.Name = "textBoxTop";
             this.textBoxTop.Size = new System.Drawing.Size(200, 38);
-            this.textBoxTop.TabIndex = 9;
+            this.textBoxTop.TabIndex = 7;
+            this.toolTip.SetToolTip(this.textBoxTop, "Top boundary for MapData");
             // 
             // labelBottom
             // 
@@ -482,7 +512,7 @@
             this.labelBottom.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelBottom.Name = "labelBottom";
             this.labelBottom.Size = new System.Drawing.Size(113, 32);
-            this.labelBottom.TabIndex = 4;
+            this.labelBottom.TabIndex = 8;
             this.labelBottom.Text = "Bottom:";
             // 
             // textBoxBottom
@@ -492,7 +522,8 @@
             this.textBoxBottom.Margin = new System.Windows.Forms.Padding(6);
             this.textBoxBottom.Name = "textBoxBottom";
             this.textBoxBottom.Size = new System.Drawing.Size(200, 38);
-            this.textBoxBottom.TabIndex = 8;
+            this.textBoxBottom.TabIndex = 9;
+            this.toolTip.SetToolTip(this.textBoxBottom, "Bottom boundary for MapData");
             // 
             // labelMarginH
             // 
@@ -502,7 +533,7 @@
             this.labelMarginH.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelMarginH.Name = "labelMarginH";
             this.labelMarginH.Size = new System.Drawing.Size(246, 32);
-            this.labelMarginH.TabIndex = 0;
+            this.labelMarginH.TabIndex = 10;
             this.labelMarginH.Text = "Horizontal Margin:";
             // 
             // textBoxMarginH
@@ -512,7 +543,7 @@
             this.textBoxMarginH.Margin = new System.Windows.Forms.Padding(6);
             this.textBoxMarginH.Name = "textBoxMarginH";
             this.textBoxMarginH.Size = new System.Drawing.Size(200, 38);
-            this.textBoxMarginH.TabIndex = 1;
+            this.textBoxMarginH.TabIndex = 11;
             // 
             // labelMarginV
             // 
@@ -522,7 +553,7 @@
             this.labelMarginV.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelMarginV.Name = "labelMarginV";
             this.labelMarginV.Size = new System.Drawing.Size(213, 32);
-            this.labelMarginV.TabIndex = 3;
+            this.labelMarginV.TabIndex = 12;
             this.labelMarginV.Text = "Vertical Margin:";
             // 
             // textBoxMarginV
@@ -532,7 +563,7 @@
             this.textBoxMarginV.Margin = new System.Windows.Forms.Padding(6);
             this.textBoxMarginV.Name = "textBoxMarginV";
             this.textBoxMarginV.Size = new System.Drawing.Size(200, 38);
-            this.textBoxMarginV.TabIndex = 2;
+            this.textBoxMarginV.TabIndex = 13;
             // 
             // checkBoxRandom
             // 
@@ -540,23 +571,11 @@
             this.checkBoxRandom.Location = new System.Drawing.Point(3, 203);
             this.checkBoxRandom.Name = "checkBoxRandom";
             this.checkBoxRandom.Size = new System.Drawing.Size(160, 36);
-            this.checkBoxRandom.TabIndex = 12;
+            this.checkBoxRandom.TabIndex = 14;
             this.checkBoxRandom.Text = "Random";
+            this.toolTip.SetToolTip(this.checkBoxRandom, "Use random or use sites form JSON file");
             this.checkBoxRandom.UseVisualStyleBackColor = true;
             this.checkBoxRandom.CheckedChanged += new System.EventHandler(this.OnRandomCheckChanged);
-            // 
-            // buttonNewJson
-            // 
-            this.buttonNewJson.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buttonNewJson.AutoSize = true;
-            this.buttonNewJson.Location = new System.Drawing.Point(375, 6);
-            this.buttonNewJson.Margin = new System.Windows.Forms.Padding(6);
-            this.buttonNewJson.Name = "buttonNewJson";
-            this.buttonNewJson.Size = new System.Drawing.Size(195, 45);
-            this.buttonNewJson.TabIndex = 5;
-            this.buttonNewJson.Text = "New JSON";
-            this.buttonNewJson.UseVisualStyleBackColor = true;
-            this.buttonNewJson.Click += new System.EventHandler(this.OnNewJsonButtonClick);
             // 
             // CreateFileFromImageDialog
             // 
@@ -625,5 +644,6 @@
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonRandom;
         private System.Windows.Forms.Button buttonNewJson;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

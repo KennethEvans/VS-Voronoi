@@ -1,4 +1,6 @@
-﻿using System;
+﻿#undef debugMouse
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -8,6 +10,7 @@ using KEUtils;
 namespace VoronoiMap {
     public partial class CreateFileFromImageDialog : Form {
         private static readonly string LF = Environment.NewLine;
+        private MainForm mainForm;
         private static readonly int pointRadius = 4;
         private MapData fileMapData;
         private MapData randomMapData;
@@ -17,7 +20,8 @@ namespace VoronoiMap {
         private Bitmap curBitmap;
         private MouseStatus mouseStatus;
 
-        public CreateFileFromImageDialog() {
+        public CreateFileFromImageDialog(MainForm mainForm) {
+            this.mainForm = mainForm;
             InitializeComponent();
 
             textBoxInputFile.Text = Properties.ImageSettings.Default.ImageFileName;
@@ -47,7 +51,7 @@ namespace VoronoiMap {
         }
 
         private void loadJson(string fileName) {
-            //Console.WriteLine("loadJson checkBoxRandom.Checked="
+            //mainForm.writeInfo("loadJson checkBoxRandom.Checked="
             //    + checkBoxRandom.Checked + " mapData=" + mapData);
             fileMapData = new MapData(fileName);
             if (!checkBoxRandom.Checked) {
@@ -64,7 +68,7 @@ namespace VoronoiMap {
         }
 
         void clearMapData() {
-            //Console.WriteLine("clearMapData checkBoxRandom.Checked="
+            //mainForm.writeInfo("clearMapData checkBoxRandom.Checked="
             //    + checkBoxRandom.Checked + " mapData=" + mapData);
             if (mapData == null) return;
             mapData.SiteList = new List<BasicSite>();
@@ -72,8 +76,11 @@ namespace VoronoiMap {
         }
 
         void plotMapData(MapData mapData) {
-            //Console.WriteLine("plotMapData checkBoxRandom.Checked="
-            //    + checkBoxRandom.Checked + " mapData=" + mapData);
+#if debugMouse
+            mainForm.writeInfo("plotMapData checkBoxRandom.Checked="
+                + checkBoxRandom.Checked);
+            mainForm.writeInfo("   mapData=" + mapData);
+#endif
             if (bitmap == null || mapData == null) {
                 return;
             }
@@ -83,22 +90,25 @@ namespace VoronoiMap {
             curBitmap = new Bitmap(bitmap.Width, bitmap.Height);
             Transform trans = new Transform(bitmap.Size, mapData);
             PointF p0;
-            //Console.WriteLine("bitmap.Width=" + bitmap.Width
-            //    + " bitmap.Height=" + bitmap.Height
-            //    + " bitmap.Size=" + bitmap.Size);
-            //p0 = new PointF(mapData.Left, mapData.Top);
-            //Console.WriteLine("left-top: " + p0 + "->" + trans.tf(p0));
-            //p0 = new PointF(mapData.Right, mapData.Top);
-            //Console.WriteLine("right-top: " + p0 + "->" + trans.tf(p0));
-            //p0 = new PointF(mapData.Right, mapData.Bottom);
-            //Console.WriteLine("right-bottom: " + p0 + "->" + trans.tf(p0));
-            //p0 = new PointF(mapData.Left, mapData.Bottom);
-            //Console.WriteLine("left-bottom: " + p0 + "->" + trans.tf(p0));
+#if debugMouse && false
+            mainForm.writeInfo("Transforming mapData to bitmap
+            mainForm.writeInfo("bitmap.Width=" + bitmap.Width
+                + " bitmap.Height=" + bitmap.Height
+                + " bitmap.Size=" + bitmap.Size);
+            p0 = new PointF(mapData.Left, mapData.Top);
+            mainForm.writeInfo("left-top: " + p0 + "->" + trans.tf(p0));
+            p0 = new PointF(mapData.Right, mapData.Top);
+            mainForm.writeInfo("right-top: " + p0 + "->" + trans.tf(p0));
+            p0 = new PointF(mapData.Right, mapData.Bottom);
+            mainForm.writeInfo("right-bottom: " + p0 + "->" + trans.tf(p0));
+            p0 = new PointF(mapData.Left, mapData.Bottom);
+            mainForm.writeInfo("left-bottom: " + p0 + "->" + trans.tf(p0));
+#endif
             using (Graphics gr = Graphics.FromImage(curBitmap)) {
                 gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 gr.DrawImage(bitmap, 0, 0, bitmap.Width, bitmap.Height);
                 RectangleF rect;
-                using (Pen pen = new Pen(Color.Black, 5)) {
+                using (Pen pen = new Pen(Color.Black, 4)) {
                     foreach (BasicSite basicSite in mapData.SiteList) {
                         p0 = trans.tf(new PointF(basicSite.X, basicSite.Y));
                         rect = new RectangleF(p0.X - pointRadius, p0.Y -
@@ -177,10 +187,12 @@ namespace VoronoiMap {
         }
 
         private void OnRandomCheckChanged(object sender, EventArgs e) {
-            //Console.WriteLine("OnRandomCheckChanged checkBoxRandom.Checked="
-            //    + checkBoxRandom.Checked + " mapData=" + mapData);
-            //Console.WriteLine("    randomMapData=" + randomMapData);
-            //Console.WriteLine("    fileMapData=" + fileMapData);
+#if debugMouse
+            mainForm.writeInfo("OnRandomCheckChanged checkBoxRandom.Checked="
+                + checkBoxRandom.Checked + " mapData=" + mapData);
+            mainForm.writeInfo("    randomMapData=" + randomMapData);
+            mainForm.writeInfo("    fileMapData=" + fileMapData);
+#endif
             if (mapData == null) return;
             clearMapData();
             if (checkBoxRandom.Checked) {
@@ -230,7 +242,7 @@ namespace VoronoiMap {
         }
 
         private void OnNewRandomButtonClick(object sender, EventArgs e) {
-            //Console.WriteLine("OnNewRandomButtonClick checkBoxRandom.Checked="
+            //mainForm.writeInfo("OnNewRandomButtonClick checkBoxRandom.Checked="
             //    + checkBoxRandom.Checked + " mapData=" + mapData);
             try {
                 float marginH = float.Parse(textBoxMarginH.Text);
@@ -261,11 +273,11 @@ namespace VoronoiMap {
                     y1 = p1.Y;
                     bool err = false;
                     if (x1 < 0 || x1 > bitmap.Width - 1) {
-                        Console.WriteLine("Invalid x=" + x1 + " for bitmap.Width=" + bitmap.Width);
+                        mainForm.writeInfo("Invalid x=" + x1 + " for bitmap.Width=" + bitmap.Width);
                         err = true;
                     }
                     if (11 < 0 || 11 > bitmap.Height - 1) {
-                        Console.WriteLine("Invalid x=" + x1 + " for bitmap.Width=" + bitmap.Width);
+                        mainForm.writeInfo("Invalid x=" + x1 + " for bitmap.Width=" + bitmap.Width);
                         err = true;
                     }
                     if (err) {
@@ -276,27 +288,29 @@ namespace VoronoiMap {
                     basicSite = new BasicSite((float)x, (float)y, color);
                     randomMapData.SiteList.Add(basicSite);
                 }
-                //if (true) {
-                //    float xmin = float.MaxValue;
-                //    float xmax = -float.MaxValue;
-                //    float ymin = float.MaxValue;
-                //    float ymax = -float.MaxValue;
-                //    foreach (BasicSite site in randomMapData.SiteList) {
-                //        if (site.X < xmin) xmin = site.X;
-                //        if (site.X > xmax) xmax = site.X;
-                //        if (site.Y < ymin) ymin = site.Y;
-                //        if (site.Y > ymax) ymax = site.Y;
-                //    }
-                //    Console.WriteLine("randomMapData=" + randomMapData);
-                //    Console.WriteLine("xmin=" + xmin + " xmax=" + xmax
-                //        + " ymin=" + ymin + " ymax=" + ymax);
-                //}
+#if false
+
+                float xmin = float.MaxValue;
+                float xmax = -float.MaxValue;
+                float ymin = float.MaxValue;
+                float ymax = -float.MaxValue;
+                foreach (BasicSite site in randomMapData.SiteList) {
+                    if (site.X < xmin) xmin = site.X;
+                    if (site.X > xmax) xmax = site.X;
+                    if (site.Y < ymin) ymin = site.Y;
+                    if (site.Y > ymax) ymax = site.Y;
+                }
+                mainForm.writeInfo("randomMapData=" + randomMapData);
+                mainForm.writeInfo("xmin=" + xmin + " xmax=" + xmax
+                    + " ymin=" + ymin + " ymax=" + ymax);
+            }
+#endif
                 if (checkBoxRandom.Checked) {
                     resetMapData(randomMapData);
                 } else {
                     checkBoxRandom.Checked = true;
                 }
-                //Console.WriteLine("    after checkBoxRandom.Checked="
+                //mainForm.writeInfo("    after checkBoxRandom.Checked="
                 //    + checkBoxRandom.Checked + " mapData=" + mapData);
             } catch (Exception ex) {
                 Utils.excMsg("Failed to generate random sites", ex);
@@ -345,6 +359,11 @@ namespace VoronoiMap {
         }
 
         private void OnMouseUp(object sender, MouseEventArgs e) {
+#if debugMouse
+            mainForm.writeInfo("OnMouseUp checkBoxRandom.Checked="
+                + checkBoxRandom.Checked);
+            mainForm.writeInfo("    mapData=" + mapData);
+#endif
             Cursor.Current = Cursors.Default;
             if (mouseStatus == null) {
                 endMouseOperations();
@@ -369,20 +388,16 @@ namespace VoronoiMap {
                 x = mouseStatus.Start.X;
                 y = mouseStatus.Start.Y;
                 p0 = new PointF(x, y);
-                if (x < 0 || x >= pictureBox.ClientSize.Width
-                    || y < 0 || y >= pictureBox.ClientSize.Height) {
-                    Console.WriteLine("Mouse event out of bounds: x=", " y=", y);
-                    endMouseOperations();
-                    return;
-                }
                 t1 = new Transform(mapData, pictureBox.Size);
                 p1 = t1.tf(p0);
                 t2 = new Transform(bitmap.Size, pictureBox.Size);
                 Point p2 = t2.tp(p0);
                 Color color = bitmap.GetPixel(p2.X, p2.Y);
-                //Console.WriteLine("OnMouseUp pictureBox.Size=" + pictureBox.Size + " bitmap.Size=" + bitmap.Size);
-                //Console.WriteLine("    mapData=" + mapData);
-                //Console.WriteLine("    p0=" + p0 + " p1=" + p1 + " p2=" + p2);
+#if debugMouse
+                mainForm.writeInfo("    New Site");
+                mainForm.writeInfo("    pictureBox.Size=" + pictureBox.Size + " bitmap.Size=" + bitmap.Size);
+                mainForm.writeInfo("    p0=" + p0 + " p1=" + p1 + " p2=" + p2);
+#endif
                 mapData.SiteList.Add(new BasicSite(p1.X, p1.Y, color));
                 endMouseOperations();
                 plotMapData(mapData);
@@ -397,6 +412,13 @@ namespace VoronoiMap {
             y = mouseStatus.Start.Y;
             p0 = new PointF(x, y);
             PointF pend = new PointF(e.Location.X, e.Location.Y);
+            if (pend.X < 0 || pend.X >= pictureBox.ClientSize.Width
+                || pend.Y < 0 || pend.Y >= pictureBox.ClientSize.Height) {
+                mainForm.writeInfo("Mouse down out of bounds: X="
+                    + pend.X + " Y=" + pend.Y);
+                endMouseOperations();
+                return;
+            }
             t1 = new Transform(mapData, pictureBox.Size);
             p1 = t1.tf(p0);
             double distance;
@@ -409,6 +431,7 @@ namespace VoronoiMap {
                 }
             }
             if (basicSite0 == null) {
+                mainForm.writeInfo("Did not find any closest site.");
                 endMouseOperations();
                 return;
             }
@@ -431,10 +454,6 @@ namespace VoronoiMap {
         private double distance(BasicSite basicSite, PointF p) {
             return (basicSite.X - p.X) * (basicSite.X - p.X) +
                 (basicSite.Y - p.Y) * (basicSite.Y - p.Y);
-        }
-
-        private void OnNewJsonButtonClick(object sender, EventArgs e) {
-            OnJsonFileBrowse(null, null);
         }
     }
 
@@ -471,7 +490,7 @@ namespace VoronoiMap {
             a = mapData1.Width / (size0.Width - 1);
             b = mapData1.Left;
             c = mapData1.Height / (size0.Height - 1);
-            d = -c * mapData1.Top;
+            d = mapData1.Top;
         }
 
         public Transform(Size size1, MapData mapData0) {
