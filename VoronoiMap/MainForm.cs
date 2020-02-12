@@ -63,6 +63,9 @@ namespace VoronoiMap {
 
             writeInfo("Voronoi "
                 + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            writeInfo("To get started:");
+            writeInfo("    Regenerate Graph generates the graph.");
+            writeInfo("    Initialize followed by Step Graph or Animate shows the steps.");
         }
 
         /// <summary>
