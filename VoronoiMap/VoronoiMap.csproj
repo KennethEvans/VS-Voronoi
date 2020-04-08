@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="App.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\ImageSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

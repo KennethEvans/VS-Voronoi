@@ -87,7 +87,7 @@
             this.helpToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(10, 10);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1975, 49);
+            this.mainMenuStrip.Size = new System.Drawing.Size(1975, 52);
             this.mainMenuStrip.TabIndex = 1;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
@@ -102,7 +102,7 @@
             this.toolStripSeparator3,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 45);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 48);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openInputFileToolStripMenuItem
@@ -169,7 +169,7 @@
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileFromImageToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(99, 45);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(99, 48);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
             // fileFromImageToolStripMenuItem
@@ -184,13 +184,13 @@
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 45);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 48);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(214, 46);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.help_About_click);
             // 
@@ -205,12 +205,12 @@
             this.tableLayoutPanelTop.Controls.Add(this.panelDiagram, 1, 0);
             this.tableLayoutPanelTop.Controls.Add(this.textBoxInfo, 1, 1);
             this.tableLayoutPanelTop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelTop.Location = new System.Drawing.Point(10, 59);
+            this.tableLayoutPanelTop.Location = new System.Drawing.Point(10, 62);
             this.tableLayoutPanelTop.Name = "tableLayoutPanelTop";
             this.tableLayoutPanelTop.RowCount = 2;
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75F));
             this.tableLayoutPanelTop.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1975, 1195);
+            this.tableLayoutPanelTop.Size = new System.Drawing.Size(1975, 1192);
             this.tableLayoutPanelTop.TabIndex = 2;
             // 
             // tableLayoutPanelControls
@@ -610,18 +610,18 @@
             this.panelDiagram.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDiagram.Location = new System.Drawing.Point(599, 3);
             this.panelDiagram.Name = "panelDiagram";
-            this.panelDiagram.Size = new System.Drawing.Size(1373, 890);
+            this.panelDiagram.Size = new System.Drawing.Size(1373, 888);
             this.panelDiagram.TabIndex = 0;
             this.panelDiagram.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPanelMainPaint);
             // 
             // textBoxInfo
             // 
             this.textBoxInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxInfo.Location = new System.Drawing.Point(599, 899);
+            this.textBoxInfo.Location = new System.Drawing.Point(599, 897);
             this.textBoxInfo.Multiline = true;
             this.textBoxInfo.Name = "textBoxInfo";
             this.textBoxInfo.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxInfo.Size = new System.Drawing.Size(1373, 293);
+            this.textBoxInfo.Size = new System.Drawing.Size(1373, 292);
             this.textBoxInfo.TabIndex = 1;
             this.toolTip.SetToolTip(this.textBoxInfo, "Console messages area");
             // 

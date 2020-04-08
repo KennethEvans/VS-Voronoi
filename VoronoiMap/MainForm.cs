@@ -15,7 +15,7 @@ using KEUtils;
 
 namespace VoronoiMap {
     public sealed partial class MainForm : Form {
-        public readonly String NL = Environment.NewLine;
+        public static readonly String NL = Environment.NewLine;
         private VoronoiGraph _graph;
         private Voronoi _voronoi;
         // Drawing stuff
