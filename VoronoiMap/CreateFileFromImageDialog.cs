@@ -1,11 +1,11 @@
 ﻿#undef debugMouse
 
+using KEUtils.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using KEUtils;
 
 namespace VoronoiMap {
     public partial class CreateFileFromImageDialog : Form {

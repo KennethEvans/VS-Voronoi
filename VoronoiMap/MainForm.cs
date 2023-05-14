@@ -1,6 +1,8 @@
 ﻿#undef dumpSites
 #undef traceFlow
 
+using KEUtils.About;
+using KEUtils.Utils;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,8 +12,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
-using KEUtils;
-
 
 namespace VoronoiMap {
     public sealed partial class MainForm : Form {
@@ -779,7 +779,14 @@ namespace VoronoiMap {
         }
 
         private void help_About_click(object sender, EventArgs e) {
-            AboutBox dlg = new AboutBox();
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Image image = null;
+            try {
+                image = Image.FromFile(@".\Help\BlueMouse.256x256.png");
+            } catch (Exception ex) {
+                Utils.excMsg("Failed to get AboutBox image", ex);
+            }
+            AboutBox dlg = new AboutBox(image, assembly);
             dlg.ShowDialog();
         }
 
