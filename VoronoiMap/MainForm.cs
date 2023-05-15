@@ -782,7 +782,7 @@ namespace VoronoiMap {
             Assembly assembly = Assembly.GetExecutingAssembly();
             Image image = null;
             try {
-                image = Image.FromFile(@".\Help\BlueMouse.256x256.png");
+                image = Image.FromFile(@".\Help\VoronoiMap.256x256.png");
             } catch (Exception ex) {
                 Utils.excMsg("Failed to get AboutBox image", ex);
             }
